@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cc.open.dao.TeachingInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cc.open.domain.TeachingInfo">
+    <id column="teaching_info_uuid" jdbcType="VARCHAR" property="teachingInfoUuid" />
+    <result column="teaching_info_title" jdbcType="VARCHAR" property="teachingInfoTitle" />
+    <result column="teaching_info_published" jdbcType="VARCHAR" property="teachingInfoPublished" />
+    <result column="teaching_info_content" jdbcType="VARCHAR" property="teachingInfoContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    teaching_info_uuid, teaching_info_title, teaching_info_published, teaching_info_content
+  </sql>
+  <select id="selectByExample" parameterType="com.cc.open.domain.TeachingInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_teaching_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_teaching_info
+    where teaching_info_uuid = #{teachingInfoUuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_teaching_info
+    where teaching_info_uuid = #{teachingInfoUuid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cc.open.domain.TeachingInfoExample">
+    delete from t_teaching_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cc.open.domain.TeachingInfo">
+    insert into t_teaching_info (teaching_info_uuid, teaching_info_title, 
+      teaching_info_published, teaching_info_content
+      )
+    values (#{teachingInfoUuid,jdbcType=VARCHAR}, #{teachingInfoTitle,jdbcType=VARCHAR}, 
+      #{teachingInfoPublished,jdbcType=VARCHAR}, #{teachingInfoContent,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cc.open.domain.TeachingInfo">
+    insert into t_teaching_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teachingInfoUuid != null">
+        teaching_info_uuid,
+      </if>
+      <if test="teachingInfoTitle != null">
+        teaching_info_title,
+      </if>
+      <if test="teachingInfoPublished != null">
+        teaching_info_published,
+      </if>
+      <if test="teachingInfoContent != null">
+        teaching_info_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teachingInfoUuid != null">
+        #{teachingInfoUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="teachingInfoTitle != null">
+        #{teachingInfoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="teachingInfoPublished != null">
+        #{teachingInfoPublished,jdbcType=VARCHAR},
+      </if>
+      <if test="teachingInfoContent != null">
+        #{teachingInfoContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cc.open.domain.TeachingInfoExample" resultType="java.lang.Long">
+    select count(*) from t_teaching_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_teaching_info
+    <set>
+      <if test="record.teachingInfoUuid != null">
+        teaching_info_uuid = #{record.teachingInfoUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teachingInfoTitle != null">
+        teaching_info_title = #{record.teachingInfoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teachingInfoPublished != null">
+        teaching_info_published = #{record.teachingInfoPublished,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teachingInfoContent != null">
+        teaching_info_content = #{record.teachingInfoContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_teaching_info
+    set teaching_info_uuid = #{record.teachingInfoUuid,jdbcType=VARCHAR},
+      teaching_info_title = #{record.teachingInfoTitle,jdbcType=VARCHAR},
+      teaching_info_published = #{record.teachingInfoPublished,jdbcType=VARCHAR},
+      teaching_info_content = #{record.teachingInfoContent,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cc.open.domain.TeachingInfo">
+    update t_teaching_info
+    <set>
+      <if test="teachingInfoTitle != null">
+        teaching_info_title = #{teachingInfoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="teachingInfoPublished != null">
+        teaching_info_published = #{teachingInfoPublished,jdbcType=VARCHAR},
+      </if>
+      <if test="teachingInfoContent != null">
+        teaching_info_content = #{teachingInfoContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where teaching_info_uuid = #{teachingInfoUuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cc.open.domain.TeachingInfo">
+    update t_teaching_info
+    set teaching_info_title = #{teachingInfoTitle,jdbcType=VARCHAR},
+      teaching_info_published = #{teachingInfoPublished,jdbcType=VARCHAR},
+      teaching_info_content = #{teachingInfoContent,jdbcType=VARCHAR}
+    where teaching_info_uuid = #{teachingInfoUuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

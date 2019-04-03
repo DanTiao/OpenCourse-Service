@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cc.open.dao.AcademyMapper">
+  <resultMap id="BaseResultMap" type="com.cc.open.domain.Academy">
+    <id column="academy_uuid" jdbcType="VARCHAR" property="academyUuid" />
+    <result column="academy_id" jdbcType="VARCHAR" property="academyId" />
+    <result column="academy_name" jdbcType="VARCHAR" property="academyName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    academy_uuid, academy_id, academy_name
+  </sql>
+  <select id="selectByExample" parameterType="com.cc.open.domain.AcademyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_academy
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_academy
+    where academy_uuid = #{academyUuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_academy
+    where academy_uuid = #{academyUuid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cc.open.domain.AcademyExample">
+    delete from t_academy
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cc.open.domain.Academy">
+    insert into t_academy (academy_uuid, academy_id, academy_name
+      )
+    values (#{academyUuid,jdbcType=VARCHAR}, #{academyId,jdbcType=VARCHAR}, #{academyName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cc.open.domain.Academy">
+    insert into t_academy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="academyUuid != null">
+        academy_uuid,
+      </if>
+      <if test="academyId != null">
+        academy_id,
+      </if>
+      <if test="academyName != null">
+        academy_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="academyUuid != null">
+        #{academyUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="academyId != null">
+        #{academyId,jdbcType=VARCHAR},
+      </if>
+      <if test="academyName != null">
+        #{academyName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cc.open.domain.AcademyExample" resultType="java.lang.Long">
+    select count(*) from t_academy
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_academy
+    <set>
+      <if test="record.academyUuid != null">
+        academy_uuid = #{record.academyUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.academyId != null">
+        academy_id = #{record.academyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.academyName != null">
+        academy_name = #{record.academyName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_academy
+    set academy_uuid = #{record.academyUuid,jdbcType=VARCHAR},
+      academy_id = #{record.academyId,jdbcType=VARCHAR},
+      academy_name = #{record.academyName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cc.open.domain.Academy">
+    update t_academy
+    <set>
+      <if test="academyId != null">
+        academy_id = #{academyId,jdbcType=VARCHAR},
+      </if>
+      <if test="academyName != null">
+        academy_name = #{academyName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where academy_uuid = #{academyUuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cc.open.domain.Academy">
+    update t_academy
+    set academy_id = #{academyId,jdbcType=VARCHAR},
+      academy_name = #{academyName,jdbcType=VARCHAR}
+    where academy_uuid = #{academyUuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+  	<commentGenerator>
+  		<property name="suppressAllComments" value="true"/>
+  	</commentGenerator>
+  
+    <jdbcConnection connectionURL="jdbc:mysql://127.0.0.1:3306/open_course?characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;useSSL=false" driverClass="com.mysql.cj.jdbc.Driver" password="root" userId="root" />
+    <javaModelGenerator targetPackage="com.cc.open.domain" targetProject="OpenCourses-Service\src\main\java" />
+    <sqlMapGenerator targetPackage="mybatis.mapper" targetProject="OpenCourses-Service\src\main\resources" />
+    <javaClientGenerator targetPackage="com.cc.open.dao" targetProject="OpenCourses-Service\src\main\java" type="XMLMAPPER" />
+    
+    <table tableName="t_user_info" domainObjectName="UserInfo"></table>
+    <table tableName="t_course_info" domainObjectName="CourseInfo"></table>
+    <table tableName="t_teaching_info" domainObjectName="TeachingInfo"></table>
+    <table tableName="t_teaching_reform" domainObjectName="TeachingReform"></table>
+    <table tableName="t_teacher" domainObjectName="Teacher"></table>
+    <table tableName="t_student" domainObjectName="Student"></table>
+    <table tableName="t_grade" domainObjectName="Grade"></table>
+    <table tableName="t_class" domainObjectName="Class"></table>
+    <table tableName="t_academy" domainObjectName="Academy"></table>
+    
+  </context>
+</generatorConfiguration>
