@@ -1,17 +1,25 @@
 package com.cc.open.domain;
 
-public class UserInfo {
+import java.util.Date;
+
+public class AccountInfo {
     private String userUuid;
 
     private String userAccount;
 
     private String userPassword;
 
+    private String userName;
+
     private String userEmail;
 
     private String userTel;
 
-    private Integer userType;
+    private String userType;
+
+    private Date createTime;
+
+    private Date lastLogin;
 
     public String getUserUuid() {
         return userUuid;
@@ -37,6 +45,14 @@ public class UserInfo {
         this.userPassword = userPassword;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getUserEmail() {
         return userEmail;
     }
@@ -53,11 +69,27 @@ public class UserInfo {
         this.userTel = userTel;
     }
 
-    public Integer getUserType() {
+    public String getUserType() {
         return userType;
     }
 
-    public void setUserType(Integer userType) {
+    public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }

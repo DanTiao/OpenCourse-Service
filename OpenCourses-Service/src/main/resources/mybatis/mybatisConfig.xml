@@ -11,7 +11,7 @@
     <sqlMapGenerator targetPackage="mybatis.mapper" targetProject="OpenCourses-Service\src\main\resources" />
     <javaClientGenerator targetPackage="com.cc.open.dao" targetProject="OpenCourses-Service\src\main\java" type="XMLMAPPER" />
     
-    <table tableName="t_user_info" domainObjectName="UserInfo"></table>
+    <table tableName="t_user_info" domainObjectName="AccountInfo"></table>
     <table tableName="t_course_info" domainObjectName="CourseInfo"></table>
     <table tableName="t_teaching_info" domainObjectName="TeachingInfo"></table>
     <table tableName="t_teaching_reform" domainObjectName="TeachingReform"></table>

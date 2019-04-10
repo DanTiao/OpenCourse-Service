@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cc.open.dao.UserInfoMapper">
-  <resultMap id="BaseResultMap" type="com.cc.open.domain.UserInfo">
+<mapper namespace="com.cc.open.dao.AccountInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cc.open.domain.AccountInfo">
     <id column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
     <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
     <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
     <result column="user_tel" jdbcType="VARCHAR" property="userTel" />
-    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_login" jdbcType="TIMESTAMP" property="lastLogin" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,9 +71,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_uuid, user_account, user_password, user_email, user_tel, user_type
+    user_uuid, user_account, user_password, user_name, user_email, user_tel, user_type, 
+    create_time, last_login
   </sql>
-  <select id="selectByExample" parameterType="com.cc.open.domain.UserInfoExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.cc.open.domain.AccountInfoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -94,21 +98,23 @@
     delete from t_user_info
     where user_uuid = #{userUuid,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.cc.open.domain.UserInfoExample">
+  <delete id="deleteByExample" parameterType="com.cc.open.domain.AccountInfoExample">
     delete from t_user_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.cc.open.domain.UserInfo">
+  <insert id="insert" parameterType="com.cc.open.domain.AccountInfo">
     insert into t_user_info (user_uuid, user_account, user_password, 
-      user_email, user_tel, user_type
+      user_name, user_email, user_tel, 
+      user_type, create_time, last_login
       )
     values (#{userUuid,jdbcType=VARCHAR}, #{userAccount,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
-      #{userEmail,jdbcType=VARCHAR}, #{userTel,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}
+      #{userName,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userTel,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{lastLogin,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.cc.open.domain.UserInfo">
+  <insert id="insertSelective" parameterType="com.cc.open.domain.AccountInfo">
     insert into t_user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userUuid != null">
@@ -120,6 +126,9 @@
       <if test="userPassword != null">
         user_password,
       </if>
+      <if test="userName != null">
+        user_name,
+      </if>
       <if test="userEmail != null">
         user_email,
       </if>
@@ -128,6 +137,12 @@
       </if>
       <if test="userType != null">
         user_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastLogin != null">
+        last_login,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -140,6 +155,9 @@
       <if test="userPassword != null">
         #{userPassword,jdbcType=VARCHAR},
       </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
       <if test="userEmail != null">
         #{userEmail,jdbcType=VARCHAR},
       </if>
@@ -147,11 +165,17 @@
         #{userTel,jdbcType=VARCHAR},
       </if>
       <if test="userType != null">
-        #{userType,jdbcType=INTEGER},
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogin != null">
+        #{lastLogin,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.cc.open.domain.UserInfoExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.cc.open.domain.AccountInfoExample" resultType="java.lang.Long">
     select count(*) from t_user_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -169,6 +193,9 @@
       <if test="record.userPassword != null">
         user_password = #{record.userPassword,jdbcType=VARCHAR},
       </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
       <if test="record.userEmail != null">
         user_email = #{record.userEmail,jdbcType=VARCHAR},
       </if>
@@ -176,7 +203,13 @@
         user_tel = #{record.userTel,jdbcType=VARCHAR},
       </if>
       <if test="record.userType != null">
-        user_type = #{record.userType,jdbcType=INTEGER},
+        user_type = #{record.userType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastLogin != null">
+        last_login = #{record.lastLogin,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -188,14 +221,17 @@
     set user_uuid = #{record.userUuid,jdbcType=VARCHAR},
       user_account = #{record.userAccount,jdbcType=VARCHAR},
       user_password = #{record.userPassword,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
       user_email = #{record.userEmail,jdbcType=VARCHAR},
       user_tel = #{record.userTel,jdbcType=VARCHAR},
-      user_type = #{record.userType,jdbcType=INTEGER}
+      user_type = #{record.userType,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      last_login = #{record.lastLogin,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cc.open.domain.UserInfo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cc.open.domain.AccountInfo">
     update t_user_info
     <set>
       <if test="userAccount != null">
@@ -204,6 +240,9 @@
       <if test="userPassword != null">
         user_password = #{userPassword,jdbcType=VARCHAR},
       </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
       <if test="userEmail != null">
         user_email = #{userEmail,jdbcType=VARCHAR},
       </if>
@@ -211,18 +250,27 @@
         user_tel = #{userTel,jdbcType=VARCHAR},
       </if>
       <if test="userType != null">
-        user_type = #{userType,jdbcType=INTEGER},
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogin != null">
+        last_login = #{lastLogin,jdbcType=TIMESTAMP},
       </if>
     </set>
     where user_uuid = #{userUuid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cc.open.domain.UserInfo">
+  <update id="updateByPrimaryKey" parameterType="com.cc.open.domain.AccountInfo">
     update t_user_info
     set user_account = #{userAccount,jdbcType=VARCHAR},
       user_password = #{userPassword,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
       user_email = #{userEmail,jdbcType=VARCHAR},
       user_tel = #{userTel,jdbcType=VARCHAR},
-      user_type = #{userType,jdbcType=INTEGER}
+      user_type = #{userType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_login = #{lastLogin,jdbcType=TIMESTAMP}
     where user_uuid = #{userUuid,jdbcType=VARCHAR}
   </update>
 </mapper>

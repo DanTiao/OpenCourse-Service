@@ -1,16 +1,17 @@
 package com.cc.open.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class UserInfoExample {
+public class AccountInfoExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public UserInfoExample() {
+    public AccountInfoExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -314,6 +315,76 @@ public class UserInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andUserNameIsNull() {
+            addCriterion("user_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameIsNotNull() {
+            addCriterion("user_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameEqualTo(String value) {
+            addCriterion("user_name =", value, "userName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameNotEqualTo(String value) {
+            addCriterion("user_name <>", value, "userName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameGreaterThan(String value) {
+            addCriterion("user_name >", value, "userName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameGreaterThanOrEqualTo(String value) {
+            addCriterion("user_name >=", value, "userName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameLessThan(String value) {
+            addCriterion("user_name <", value, "userName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameLessThanOrEqualTo(String value) {
+            addCriterion("user_name <=", value, "userName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameLike(String value) {
+            addCriterion("user_name like", value, "userName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameNotLike(String value) {
+            addCriterion("user_name not like", value, "userName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameIn(List<String> values) {
+            addCriterion("user_name in", values, "userName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameNotIn(List<String> values) {
+            addCriterion("user_name not in", values, "userName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameBetween(String value1, String value2) {
+            addCriterion("user_name between", value1, value2, "userName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNameNotBetween(String value1, String value2) {
+            addCriterion("user_name not between", value1, value2, "userName");
+            return (Criteria) this;
+        }
+
         public Criteria andUserEmailIsNull() {
             addCriterion("user_email is null");
             return (Criteria) this;
@@ -464,53 +535,183 @@ public class UserInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeEqualTo(Integer value) {
+        public Criteria andUserTypeEqualTo(String value) {
             addCriterion("user_type =", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeNotEqualTo(Integer value) {
+        public Criteria andUserTypeNotEqualTo(String value) {
             addCriterion("user_type <>", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeGreaterThan(Integer value) {
+        public Criteria andUserTypeGreaterThan(String value) {
             addCriterion("user_type >", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeGreaterThanOrEqualTo(Integer value) {
+        public Criteria andUserTypeGreaterThanOrEqualTo(String value) {
             addCriterion("user_type >=", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeLessThan(Integer value) {
+        public Criteria andUserTypeLessThan(String value) {
             addCriterion("user_type <", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeLessThanOrEqualTo(Integer value) {
+        public Criteria andUserTypeLessThanOrEqualTo(String value) {
             addCriterion("user_type <=", value, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeIn(List<Integer> values) {
+        public Criteria andUserTypeLike(String value) {
+            addCriterion("user_type like", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeNotLike(String value) {
+            addCriterion("user_type not like", value, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserTypeIn(List<String> values) {
             addCriterion("user_type in", values, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeNotIn(List<Integer> values) {
+        public Criteria andUserTypeNotIn(List<String> values) {
             addCriterion("user_type not in", values, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeBetween(Integer value1, Integer value2) {
+        public Criteria andUserTypeBetween(String value1, String value2) {
             addCriterion("user_type between", value1, value2, "userType");
             return (Criteria) this;
         }
 
-        public Criteria andUserTypeNotBetween(Integer value1, Integer value2) {
+        public Criteria andUserTypeNotBetween(String value1, String value2) {
             addCriterion("user_type not between", value1, value2, "userType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNull() {
+            addCriterion("create_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNotNull() {
+            addCriterion("create_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeEqualTo(Date value) {
+            addCriterion("create_time =", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotEqualTo(Date value) {
+            addCriterion("create_time <>", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThan(Date value) {
+            addCriterion("create_time >", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("create_time >=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThan(Date value) {
+            addCriterion("create_time <", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("create_time <=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIn(List<Date> values) {
+            addCriterion("create_time in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotIn(List<Date> values) {
+            addCriterion("create_time not in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeBetween(Date value1, Date value2) {
+            addCriterion("create_time between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginIsNull() {
+            addCriterion("last_login is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginIsNotNull() {
+            addCriterion("last_login is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginEqualTo(Date value) {
+            addCriterion("last_login =", value, "lastLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginNotEqualTo(Date value) {
+            addCriterion("last_login <>", value, "lastLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginGreaterThan(Date value) {
+            addCriterion("last_login >", value, "lastLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginGreaterThanOrEqualTo(Date value) {
+            addCriterion("last_login >=", value, "lastLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginLessThan(Date value) {
+            addCriterion("last_login <", value, "lastLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginLessThanOrEqualTo(Date value) {
+            addCriterion("last_login <=", value, "lastLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginIn(List<Date> values) {
+            addCriterion("last_login in", values, "lastLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginNotIn(List<Date> values) {
+            addCriterion("last_login not in", values, "lastLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginBetween(Date value1, Date value2) {
+            addCriterion("last_login between", value1, value2, "lastLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginNotBetween(Date value1, Date value2) {
+            addCriterion("last_login not between", value1, value2, "lastLogin");
             return (Criteria) this;
         }
     }
