@@ -2,7 +2,7 @@ package com.cc.open.vo;
 
 import java.io.Serializable;
 
-public class RequestVO<T> implements Serializable {
+public class ResponVO<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String code;

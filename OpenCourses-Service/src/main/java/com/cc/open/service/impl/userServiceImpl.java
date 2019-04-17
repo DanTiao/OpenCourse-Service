@@ -1,18 +1,26 @@
 package com.cc.open.service.impl;
 
-import com.cc.open.service.UserService;
-import com.cc.open.vo.RequestVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cc.open.domain.AccountInfo;
+import com.cc.open.service.IUserService;
+import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserLoginVO;
 
-public class userServiceImpl implements UserService{
+@Service
+public class userServiceImpl implements IUserService{
+	
+	@Autowired
+	private AccountInfo accountInfo;
 
 	@Override
-	public RequestVO<UserLoginVO> userLogin(UserLoginVO userLoginVO) {
-		RequestVO<UserLoginVO> result = new RequestVO<UserLoginVO>();
+	public ResponVO<UserLoginVO> userLogin(UserLoginVO userLoginVO) {
+		ResponVO<UserLoginVO> result = new ResponVO<UserLoginVO>();
 		result.setSuccess(false);
+		result.setData(userLoginVO);
 		
-		
-		return null;
+		return result;
 	}
 
 }
