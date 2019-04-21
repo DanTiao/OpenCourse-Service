@@ -7,6 +7,7 @@ public class ResponVO<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String code;
 	private boolean success;
+	private String message;
 	private T data;
 	public String getCode() {
 		return code;
@@ -25,6 +26,12 @@ public class ResponVO<T> implements Serializable {
 	}
 	public void setData(T data) {
 		this.data = data;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 

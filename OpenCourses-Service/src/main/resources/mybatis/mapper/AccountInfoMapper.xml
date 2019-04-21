@@ -273,4 +273,13 @@
       last_login = #{lastLogin,jdbcType=TIMESTAMP}
     where user_uuid = #{userUuid,jdbcType=VARCHAR}
   </update>
+  
+  <select id="findAccountInfo" resultType="com.cc.open.vo.LoginVO">
+  	SELECT 
+  		user_uuid AS userId, user_name AS userName, user_type AS userType 
+  	FROM t_user_info
+  	WHERE
+	  	user_account = #{loginVO.account,jdbcType=VARCHAR}
+	  	AND user_password = #{loginVO.password,jdbcType=VARCHAR}
+  </select>
 </mapper>

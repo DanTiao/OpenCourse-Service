@@ -1,18 +1,16 @@
 package com.cc.open.service;
 
-import org.springframework.stereotype.Service;
-
 import com.cc.open.vo.ResponVO;
-import com.cc.open.vo.UserLoginVO;
+import com.cc.open.vo.LoginVO;
 
 
 public interface IUserService {
 
 	/**
 	 * 用户登录
-	 * @param userLoginVO
+	 * @param loginVO
 	 * @return
 	 */
-	ResponVO<UserLoginVO> userLogin(UserLoginVO userLoginVO);
+	ResponVO<LoginVO> userLogin(LoginVO loginVO);
 
 }

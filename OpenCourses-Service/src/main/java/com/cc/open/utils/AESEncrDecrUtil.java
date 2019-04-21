@@ -10,7 +10,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 
 public class AESEncrDecrUtil {
 	
-	private final static String KEY="qweqweqweqwe";
+	private final static String KEY="qweasd0987654321";
 	
 	private final static String TRANSFORMATION = "AES/ECB/PKCS5Padding";
 

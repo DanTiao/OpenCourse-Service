@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cc.open.service.IUserService;
 import com.cc.open.vo.ResponVO;
-import com.cc.open.vo.UserLoginVO;
+import com.cc.open.vo.LoginVO;
 
 
 @RestController
@@ -19,12 +19,12 @@ public class UserController {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
-	private IUserService iUserService;
+	private IUserService userService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-	public ResponVO<UserLoginVO> stringTest(@RequestBody UserLoginVO userLoginVO)
+	public ResponVO<LoginVO> stringTest(@RequestBody LoginVO loginVO)
 	{
-		ResponVO<UserLoginVO> result = iUserService.userLogin(userLoginVO);
+		ResponVO<LoginVO> result = userService.userLogin(loginVO);
 		return result;
 	}
 	
