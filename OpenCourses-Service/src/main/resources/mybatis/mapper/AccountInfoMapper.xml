@@ -74,6 +74,10 @@
     user_uuid, user_account, user_password, user_name, user_email, user_tel, user_type, 
     create_time, last_login
   </sql>
+  <sql id="Base_result">
+  	user_uuid AS userId, user_account AS userAccount, user_password AS userPassword, user_name AS userName, user_email AS userEmail, user_tel AS userTel, user_type AS userType, 
+    create_time AS createTime, last_login AS lastLogin, update_time AS updateTime
+  </sql>
   <select id="selectByExample" parameterType="com.cc.open.domain.AccountInfoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -279,7 +283,28 @@
   		user_uuid AS userId, user_name AS userName, user_type AS userType 
   	FROM t_user_info
   	WHERE
-	  	user_account = #{userVO.account,jdbcType=VARCHAR}
-	  	AND user_password = #{userVO.password,jdbcType=VARCHAR}
+	  	user_account = #{userVO.userAccount,jdbcType=VARCHAR}
+	  	AND user_password = #{userVO.userPassword,jdbcType=VARCHAR}
   </select>
+  
+  <insert id="createUser" parameterType="com.cc.open.vo.UserVO">
+  	insert into t_user_info (user_uuid, user_account, user_password, 
+      user_name, user_email, user_tel, 
+      user_type, create_time, update_time
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{userAccount,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userTel,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <select id="findAccountByAccount" resultType="com.cc.open.vo.UserVO">
+  	SELECT 
+  	  <include refid="Base_result"></include>
+  	FROM t_user_info
+  	WHERE
+  	  user_account=#{userAccount,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findAllUser" ></select>
 </mapper>

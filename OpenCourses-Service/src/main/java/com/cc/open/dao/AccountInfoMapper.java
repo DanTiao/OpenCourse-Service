@@ -30,5 +30,30 @@ public interface AccountInfoMapper {
 
     int updateByPrimaryKey(AccountInfo record);
 
+   /**
+    * 根据用户名查找登录密码
+    * @param userVO
+    * @return
+    */
 	UserVO findAccountInfo(@Param("userVO") UserVO userVO);
+
+	/**
+	 * 增加新用户
+	 * @param userVO
+	 * @return
+	 */
+	int createUser(UserVO userVO);
+
+	/**
+	 * 通过用户名找用户信息
+	 * @param userAccount
+	 * @return
+	 */
+	UserVO findAccountByAccount(@Param("userAccount") String userAccount);
+
+	/**
+	 * 分页查询
+	 * @return
+	 */
+	List<UserVO> findAllUser();
 }
