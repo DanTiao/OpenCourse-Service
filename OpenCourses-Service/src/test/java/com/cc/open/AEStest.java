@@ -13,7 +13,7 @@ public class AEStest {
 
 	@Test
 	public void testAES() {
-		String a = "发话213asdh324ha打呼sad";
+		String a = "2019公开课网站www.OpenCourse.com";
 		String encrypt = AESUtil.encrypt(a);
 		System.out.println(encrypt);
 		String str = AESUtil.decrypt(encrypt);
