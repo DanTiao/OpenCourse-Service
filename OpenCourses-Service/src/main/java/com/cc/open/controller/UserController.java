@@ -17,6 +17,7 @@ import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 
 @RestController
@@ -43,10 +44,15 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/findAll/{pageNum}/{pageSize}", method = RequestMethod.GET, produces = "application/json")
-	public ResponVO<List<UserVO>> findAllUser(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize){
-		ResponVO<List<UserVO>> result = new ResponVO<List<UserVO>>();
+	public ResponVO<PageInfo> findAllUser(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize){
+		ResponVO<PageInfo> result = new ResponVO<>();
 		PageHelper.startPage(pageNum, pageSize);
+		logger.info("########  Paging query");
 		List<UserVO> listUser = accountInfoMapper.findAllUser();
+		PageInfo pageInfo = new PageInfo(listUser);
+		result.setData(pageInfo);
+		result.setSuccess(true);
+		result.setCode("200");
 		return result;
 	}
 

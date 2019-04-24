@@ -306,5 +306,14 @@
   	  user_account=#{userAccount,jdbcType=VARCHAR}
   </select>
   
-  <select id="findAllUser" ></select>
+  <select id="findAllUser" resultType="com.cc.open.vo.UserVO">
+    SELECT 
+      user_uuid AS userId, 
+      user_account AS userAccount,
+      user_name AS userName, 
+      user_type AS userType, 
+      create_time AS createTime
+    FROM t_user_info
+    ORDER BY create_time
+  </select>
 </mapper>
