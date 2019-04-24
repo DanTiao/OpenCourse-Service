@@ -2,7 +2,7 @@ package com.cc.open.vo;
 
 import java.io.Serializable;
 
-public class LoginVO implements Serializable{
+public class UserVO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	

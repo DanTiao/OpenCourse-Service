@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cc.open.service.IUserService;
 import com.cc.open.vo.ResponVO;
-import com.cc.open.vo.LoginVO;
+import com.cc.open.vo.UserVO;
 
 
 @RestController
@@ -22,11 +22,15 @@ public class UserController {
 	private IUserService userService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-	public ResponVO<LoginVO> stringTest(@RequestBody LoginVO loginVO)
+	public ResponVO<UserVO> userLogin(@RequestBody UserVO userVO)
 	{
-		ResponVO<LoginVO> result = userService.userLogin(loginVO);
+		ResponVO<UserVO> result = userService.userLogin(userVO);
 		return result;
 	}
 	
+	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<UserVO> createUser(UserVO userVO){
+		return userService.createUser(userVO);
+	}
 
 }

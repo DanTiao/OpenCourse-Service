@@ -5,19 +5,19 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.cc.open.utils.AESEncrDecrUtil;
+import com.cc.open.utils.AESUtil;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class AEStest {
 
-	
-	
 	@Test
-	public void testEncr() throws Exception {
-		String a = "qweewqqwe";
-		String encrypt = AESEncrDecrUtil.encrypt(a);
+	public void testAES() {
+		String a = "发话213asdh324ha打呼sad";
+		String encrypt = AESUtil.encrypt(a);
 		System.out.println(encrypt);
+		String str = AESUtil.decrypt(encrypt);
+		System.out.println(str);
 	}
 	
 	
