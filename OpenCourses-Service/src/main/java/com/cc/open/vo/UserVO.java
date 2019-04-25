@@ -3,6 +3,8 @@ package com.cc.open.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class UserVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -14,10 +16,17 @@ public class UserVO implements Serializable {
 	private String secretPassword;
 	private String userEmail;
 	private String userTel;
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 	private String userType;
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date lastLogin;
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
+	/**
+	 * 是否有效(0---失效；1---有效)
+	 */
+	private String isValid;
 
 	public String getUserId() {
 		return userId;
@@ -105,6 +114,14 @@ public class UserVO implements Serializable {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getIsValid() {
+		return isValid;
+	}
+
+	public void setIsValid(String isValid) {
+		this.isValid = isValid;
 	}
 
 }

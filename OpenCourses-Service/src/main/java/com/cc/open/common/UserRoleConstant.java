@@ -2,9 +2,9 @@ package com.cc.open.common;
 
 public class UserRoleConstant {
 
-	public final static String ADMIN = "1";
+	public final static String SUPADMIN = "SUPADMIN";
 	
-	public final static String SECOND_ADMIN = "2";
+	public final static String ADMIN = "ADMIN";
 	
-	public final static String TEACHER = "3";
+	public final static String TEACHER = "TEACHER";
 }

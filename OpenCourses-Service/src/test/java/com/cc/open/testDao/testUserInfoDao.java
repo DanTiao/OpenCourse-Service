@@ -15,16 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.cc.open.dao.AccountInfoMapper;
-import com.cc.open.domain.AccountInfo;
-import com.cc.open.domain.AccountInfoExample;
+import com.cc.open.dao.UserInfoMapper;
+import com.cc.open.domain.UserInfo;
+import com.cc.open.domain.UserInfoExample;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class testUserInfoDao {
 
 	@Autowired
-	private AccountInfoMapper userInfoMapper;
+	private UserInfoMapper userInfoMapper;
 	
 	private final static String ADMIN = "c6zZpZchMLdQZsgllaH64w";
 	private final static String NOMAL = "HiOFKCC5FUMWx8BuK3ugUQ";
@@ -36,7 +36,7 @@ public class testUserInfoDao {
 	public void testInsert() throws NoSuchAlgorithmException
 	{
 		
-		AccountInfo user = new AccountInfo();
+		UserInfo user = new UserInfo();
 		String uuid = UUID.randomUUID().toString();
 		String password = "ccwx20190407";
 		password = "273du621cx9lks7s7a9fkjhf71";
@@ -57,7 +57,7 @@ public class testUserInfoDao {
 	@Test
 	public void testSelect()
 	{
-		System.out.println(userInfoMapper.selectByExample(new AccountInfoExample()));
+		System.out.println(userInfoMapper.selectByExample(new UserInfoExample()));
 	}
 	
 	@Test

@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cc.open.dao.AccountInfoMapper;
+import com.cc.open.dao.UserInfoMapper;
 import com.cc.open.service.IUserService;
 import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserVO;
@@ -29,7 +30,7 @@ public class UserController {
 	private IUserService userService;
 	
 	@Autowired
-	private AccountInfoMapper accountInfoMapper;
+	private UserInfoMapper userInfoDao;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
 	public ResponVO<UserVO> userLogin(@RequestBody UserVO userVO)
@@ -48,12 +49,22 @@ public class UserController {
 		ResponVO<PageInfo> result = new ResponVO<>();
 		PageHelper.startPage(pageNum, pageSize);
 		logger.info("########  Paging query");
-		List<UserVO> listUser = accountInfoMapper.findAllUser();
+		List<UserVO> listUser = userInfoDao.findAllUser();
 		PageInfo pageInfo = new PageInfo(listUser);
 		result.setData(pageInfo);
 		result.setSuccess(true);
 		result.setCode("200");
 		return result;
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> deleteUserByUserId(@RequestBody String userId){
+		return userService.deleteUserByUserId(userId);
+	}
+	
+	@RequestMapping(value = "/delete/users", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> deleteUsersByUserId(@RequestBody List<String> ids){
+		return userService.deleteUsers(ids);
 	}
 
 }

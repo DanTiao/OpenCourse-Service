@@ -1,17 +1,21 @@
 package com.cc.open.service.impl;
 
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cc.open.common.UserRoleConstant;
-import com.cc.open.dao.AccountInfoMapper;
-import com.cc.open.domain.AccountInfo;
+import com.cc.open.dao.UserInfoMapper;
+import com.cc.open.domain.UserInfoExample;
+import com.cc.open.domain.UserInfoExample.Criteria;
 import com.cc.open.service.IUserService;
 import com.cc.open.utils.AESUtil;
 import com.cc.open.vo.ResponVO;
@@ -23,7 +27,7 @@ public class userServiceImpl implements IUserService{
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	private AccountInfoMapper accountInfoMapper;
+	private UserInfoMapper userInfoDao;
 
 	@Override
 	public ResponVO<UserVO> userLogin(UserVO userVO) {
@@ -31,7 +35,7 @@ public class userServiceImpl implements IUserService{
 		result.setSuccess(false);
 		result.setData(userVO);
 		logger.info("########  Check account info...");
-		UserVO accontInfo = accountInfoMapper.findAccountInfo(userVO);
+		UserVO accontInfo = userInfoDao.findAccountInfo(userVO);
 		if(accontInfo != null) {
 			logger.info("########  Login successful");
 			result.setCode("200");
@@ -51,7 +55,7 @@ public class userServiceImpl implements IUserService{
 		result.setData(userVO);
 		logger.info("########  Create user");
 		//用户名是否已存在
-		UserVO user = accountInfoMapper.findAccountByAccount(userVO.getUserAccount());
+		UserVO user = userInfoDao.findAccountByAccount(userVO.getUserAccount());
 		if(user != null) {
 			logger.info("########  Username already exists");
 			result.setMessage("用户名已存在");
@@ -65,7 +69,8 @@ public class userServiceImpl implements IUserService{
 		userVO.setUserType(UserRoleConstant.TEACHER);
 		userVO.setCreateTime(new Date());
 		userVO.setUpdateTime(new Date());
-		int flag = accountInfoMapper.createUser(userVO);
+		userVO.setIsValid("1");
+		int flag = userInfoDao.createUser(userVO);
 		if(flag>0) {
 			result.setCode("200");
 			result.setMessage("增加成功");
@@ -77,6 +82,46 @@ public class userServiceImpl implements IUserService{
 			logger.info("########  Create user fail");
 		}
 		return result;
+	}
+
+	@Override
+	public ResponVO<String> deleteUserByUserId(String userId) {
+		ResponVO<String> result = new ResponVO<String>();
+		result.setSuccess(false);
+		if(StringUtils.isEmpty(userId)) {
+			result.setCode("500");
+			result.setMessage("The userId is null");
+			return result;
+		}
+		userInfoDao.deleteUserById(userId);
+		logger.info("########  Delete user successful");
+		result.setCode("200");
+		result.setSuccess(true);
+		return result;
+	}
+
+	@Override
+	public ResponVO<String> deleteUsers(List<String> ids) {
+		ResponVO<String> result = new ResponVO<String>();
+		result.setSuccess(false);
+		if(ids == null) {
+			result.setCode("500");
+			result.setMessage("The userIds is null");
+			return result;
+		}
+//		userInfoDao.deleteUsersByIds(ids);
+		deleteUsersByIds(ids);
+		logger.info("########  Delete user successful");
+		result.setCode("200");
+		result.setSuccess(true);
+		return result;
+	}
+	
+	private void deleteUsersByIds(List<String> ids) {
+		UserInfoExample example = new UserInfoExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andUserUuidIn(ids);
+		userInfoDao.deleteByExample(example);
 	}
 
 }

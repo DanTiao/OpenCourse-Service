@@ -2,7 +2,7 @@ package com.cc.open.domain;
 
 import java.util.Date;
 
-public class AccountInfo {
+public class UserInfo {
     private String userUuid;
 
     private String userAccount;
@@ -20,6 +20,10 @@ public class AccountInfo {
     private Date createTime;
 
     private Date lastLogin;
+
+    private Date updateTime;
+
+    private String isValid;
 
     public String getUserUuid() {
         return userUuid;
@@ -91,5 +95,21 @@ public class AccountInfo {
 
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(String isValid) {
+        this.isValid = isValid;
     }
 }

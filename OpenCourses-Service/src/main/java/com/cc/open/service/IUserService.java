@@ -1,5 +1,7 @@
 package com.cc.open.service;
 
+import java.util.List;
+
 import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserVO;
 
@@ -19,5 +21,19 @@ public interface IUserService {
 	 * @return
 	 */
 	ResponVO<UserVO> createUser(UserVO userVO);
+
+	/**
+	 * 根据用户id删除用户
+	 * @param userId
+	 * @return
+	 */
+	ResponVO<String> deleteUserByUserId(String userId);
+
+	/**
+	 * 批量删除
+	 * @param ids
+	 * @return
+	 */
+	ResponVO<String> deleteUsers(List<String> ids);
 
 }

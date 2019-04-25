@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cc.open.dao.AccountInfoMapper">
-  <resultMap id="BaseResultMap" type="com.cc.open.domain.AccountInfo">
+<mapper namespace="com.cc.open.dao.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cc.open.domain.UserInfo">
     <id column="user_uuid" jdbcType="VARCHAR" property="userUuid" />
     <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
     <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
@@ -11,7 +11,21 @@
     <result column="user_type" jdbcType="VARCHAR" property="userType" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_login" jdbcType="TIMESTAMP" property="lastLogin" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_valid" jdbcType="VARCHAR" property="isValid" />
   </resultMap>
+  <sql id="Base_result">
+      user_uuid AS userId, 
+      user_account AS userAccount,
+      user_name AS userName,
+      user_email AS userEmail,
+      user_tel AS userTel, 
+      user_type AS userType, 
+      create_time AS createTime,
+      last_login AS lastLogin,
+      update_time AS updateTime,
+      is_valid AS isValid
+  </sql>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -72,13 +86,9 @@
   </sql>
   <sql id="Base_Column_List">
     user_uuid, user_account, user_password, user_name, user_email, user_tel, user_type, 
-    create_time, last_login
+    create_time, last_login, update_time, is_valid
   </sql>
-  <sql id="Base_result">
-  	user_uuid AS userId, user_account AS userAccount, user_password AS userPassword, user_name AS userName, user_email AS userEmail, user_tel AS userTel, user_type AS userType, 
-    create_time AS createTime, last_login AS lastLogin, update_time AS updateTime
-  </sql>
-  <select id="selectByExample" parameterType="com.cc.open.domain.AccountInfoExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.cc.open.domain.UserInfoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -102,23 +112,23 @@
     delete from t_user_info
     where user_uuid = #{userUuid,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.cc.open.domain.AccountInfoExample">
+  <delete id="deleteByExample" parameterType="com.cc.open.domain.UserInfoExample">
     delete from t_user_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.cc.open.domain.AccountInfo">
+  <insert id="insert" parameterType="com.cc.open.domain.UserInfo">
     insert into t_user_info (user_uuid, user_account, user_password, 
       user_name, user_email, user_tel, 
-      user_type, create_time, last_login
-      )
+      user_type, create_time, last_login, 
+      update_time, is_valid)
     values (#{userUuid,jdbcType=VARCHAR}, #{userAccount,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
       #{userName,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userTel,jdbcType=VARCHAR}, 
-      #{userType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{lastLogin,jdbcType=TIMESTAMP}
-      )
+      #{userType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{lastLogin,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isValid,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.cc.open.domain.AccountInfo">
+  <insert id="insertSelective" parameterType="com.cc.open.domain.UserInfo">
     insert into t_user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userUuid != null">
@@ -147,6 +157,12 @@
       </if>
       <if test="lastLogin != null">
         last_login,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isValid != null">
+        is_valid,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -177,9 +193,15 @@
       <if test="lastLogin != null">
         #{lastLogin,jdbcType=TIMESTAMP},
       </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.cc.open.domain.AccountInfoExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.cc.open.domain.UserInfoExample" resultType="java.lang.Long">
     select count(*) from t_user_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -215,6 +237,12 @@
       <if test="record.lastLogin != null">
         last_login = #{record.lastLogin,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isValid != null">
+        is_valid = #{record.isValid,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -230,12 +258,14 @@
       user_tel = #{record.userTel,jdbcType=VARCHAR},
       user_type = #{record.userType,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      last_login = #{record.lastLogin,jdbcType=TIMESTAMP}
+      last_login = #{record.lastLogin,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_valid = #{record.isValid,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cc.open.domain.AccountInfo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cc.open.domain.UserInfo">
     update t_user_info
     <set>
       <if test="userAccount != null">
@@ -262,10 +292,16 @@
       <if test="lastLogin != null">
         last_login = #{lastLogin,jdbcType=TIMESTAMP},
       </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_uuid = #{userUuid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cc.open.domain.AccountInfo">
+  <update id="updateByPrimaryKey" parameterType="com.cc.open.domain.UserInfo">
     update t_user_info
     set user_account = #{userAccount,jdbcType=VARCHAR},
       user_password = #{userPassword,jdbcType=VARCHAR},
@@ -274,11 +310,13 @@
       user_tel = #{userTel,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      last_login = #{lastLogin,jdbcType=TIMESTAMP}
+      last_login = #{lastLogin,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_valid = #{isValid,jdbcType=VARCHAR}
     where user_uuid = #{userUuid,jdbcType=VARCHAR}
   </update>
   
-  <select id="findAccountInfo" resultType="com.cc.open.vo.UserVO">
+    <select id="findAccountInfo" resultType="com.cc.open.vo.UserVO">
   	SELECT 
   		user_uuid AS userId, user_name AS userName, user_type AS userType 
   	FROM t_user_info
@@ -290,11 +328,11 @@
   <insert id="createUser" parameterType="com.cc.open.vo.UserVO">
   	insert into t_user_info (user_uuid, user_account, user_password, 
       user_name, user_email, user_tel, 
-      user_type, create_time, update_time
+      user_type, create_time, update_time, is_valid
       )
     values (#{userId,jdbcType=VARCHAR}, #{userAccount,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
       #{userName,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userTel,jdbcType=VARCHAR}, 
-      #{userType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{userType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isValid,jdbcType=TIMESTAMP}
       )
   </insert>
   
@@ -312,8 +350,40 @@
       user_account AS userAccount,
       user_name AS userName, 
       user_type AS userType, 
-      create_time AS createTime
+      create_time AS createTime,
+      is_valid AS isValid
     FROM t_user_info
     ORDER BY create_time
   </select>
+  
+  <select id="findUserById" resultType="com.cc.open.vo.UserVO">
+  	SELECT
+  	  user_uuid AS userId, 
+      user_account AS userAccount,
+      user_name AS userName,
+      user_email AS userEmail,
+      user_tel AS userTel, 
+      user_type AS userType, 
+      create_time AS createTime,
+      last_login AS lastLogin,
+      update_time AS updateTime,
+      is_valid AS isValid
+    FROM t_user_info
+    WHERE
+      user_uuid = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteUserById">
+  	DELETE FROM t_user_info
+  	WHERE user_uuid = #{userId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteUsersByIds" parameterType="String">
+  	DELETE FROM t_user_info
+  	WHERE
+  	 user_uuid IN
+  	 <foreach collection="array" item="userId" open="(" separator="," close=")">
+            #{userId,jdbcType=VARCHAR}
+     </foreach>
+  </delete>
 </mapper>
