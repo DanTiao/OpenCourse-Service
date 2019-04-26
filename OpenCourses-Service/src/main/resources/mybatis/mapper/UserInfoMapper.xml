@@ -18,6 +18,7 @@
       user_uuid AS userId, 
       user_account AS userAccount,
       user_name AS userName,
+      user_password AS secretPassword,
       user_email AS userEmail,
       user_tel AS userTel, 
       user_type AS userType, 
@@ -318,10 +319,14 @@
   
     <select id="findAccountInfo" resultType="com.cc.open.vo.UserVO">
   	SELECT 
-  		user_uuid AS userId, user_name AS userName, user_type AS userType, user_password AS secretPassword 
+  		user_uuid AS userId,user_account AS userAccount, user_name AS userName, user_type AS userType, user_password AS secretPassword,
+  		create_time AS createTime 
   	FROM t_user_info
   	WHERE
 	  	user_account = #{userVO.userAccount,jdbcType=VARCHAR}
+	  	<if test="userVO.isEnable != null">
+	  	AND is_enable = #{userVO.isEnable,jdbcType=VARCHAR}
+	  	</if>
   </select>
   
   <insert id="createUser" parameterType="com.cc.open.vo.UserVO">
@@ -352,6 +357,7 @@
       create_time AS createTime,
       is_valid AS isValid
     FROM t_user_info
+    WHERE is_enable = #{isEnable,jdbcType=VARCHAR}
     ORDER BY create_time
   </select>
   
@@ -385,4 +391,74 @@
             #{userId,jdbcType=VARCHAR}
      </foreach>
   </delete>
+  
+  <select id="findAccountById" resultType="com.cc.open.vo.UserVO">
+  	SELECT
+  	  <include refid="Base_result"></include>
+  	FROM t_user_info
+  	WHERE user_uuid = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateUser">
+  	UPDATE t_user_Info
+  	<set>
+      <if test="userVO.userPassword != null">
+        user_password = #{userVO.userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userVO.userName != null">
+        user_name = #{userVO.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userVO.userEmail != null">
+        user_email = #{userVO.userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userVO.userTel != null">
+        user_tel = #{userVO.userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="userVO.userType != null">
+        user_type = #{userVO.userType,jdbcType=VARCHAR},
+      </if>
+      <if test="userVO.createTime != null">
+        create_time = #{userVO.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userVO.lastLogin != null">
+        last_login = #{userVO.lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userVO.updateTime != null">
+        update_time = #{userVO.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userVO.isValid != null">
+        is_valid = #{userVO.isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="userVO.isEnable != null">
+        is_enable = #{userVO.isEnable,jdbcType=VARCHAR},
+      </if>
+    </set>
+    WHERE 1=1
+     <if test="userVO.userAccount != null">
+     	AND user_account = #{userVO.userAccount,jdbcType=VARCHAR}
+     </if>
+    <if test="userVO.userId != null">
+     	AND user_uuid = #{userVO.userId,jdbcType=VARCHAR}
+    </if>
+  </update>
+  
+  <update id="deleteLogically" parameterType="java.util.List">
+    update t_user_Info 
+    set  is_enable = '0'
+    where user_uuid in
+    <foreach collection="list" index="index" item="item" 
+        separator="," open="(" close=")">
+        #{item,jdbcType=BIGINT}
+    </foreach>
+ </update>
+ <update id="restLogically" parameterType="java.util.List">
+ 	update t_user_Info 
+    set  is_enable = '1'
+    where user_uuid in
+    <foreach collection="list" index="index" item="item" 
+        separator="," open="(" close=")">
+        #{item,jdbcType=BIGINT}
+    </foreach>
+ </update>
+ 
 </mapper>

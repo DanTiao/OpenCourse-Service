@@ -10,7 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter
+//@WebFilter
 public class CorsFilter implements Filter{
 
 	@Override
@@ -18,8 +18,9 @@ public class CorsFilter implements Filter{
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		HttpServletResponse response = (HttpServletResponse)resp;
+		HttpServletResponse request = (HttpServletResponse)req;
 		
-		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 		response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE,UPDATE,OPTIONS");
 		response.setHeader("Access-Control-Allow-Headers", "content-type");
 		response.setHeader("Access-Control-Max-Age", "3600");

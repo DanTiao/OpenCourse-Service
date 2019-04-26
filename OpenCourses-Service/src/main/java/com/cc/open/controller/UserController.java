@@ -46,11 +46,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/findAll/{pageNum}/{pageSize}", method = RequestMethod.GET, produces = "application/json")
-	public ResponVO<PageInfo> findAllUser(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize){
+	public ResponVO<PageInfo> findAllUser(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize, @RequestParam("isEnable") String isEnable){
 		ResponVO<PageInfo> result = new ResponVO<>();
 		PageHelper.startPage(pageNum, pageSize);
 		logger.info("########  Paging query");
-		List<UserVO> listUser = userInfoDao.findAllUser();
+		List<UserVO> listUser = userInfoDao.findAllUser(isEnable);
 		PageInfo pageInfo = new PageInfo(listUser);
 		result.setData(pageInfo);
 		result.setSuccess(true);
@@ -58,19 +58,44 @@ public class UserController {
 		return result;
 	}
 	
+	/**
+	 * 逻辑删除
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/json")
-	public ResponVO<String> deleteUserByUserId(@RequestBody String userId){
-		return userService.deleteUserByUserId(userId);
+	public ResponVO<String> deleteUser(@RequestBody List<String> userId){
+		return userService.deleteUser(userId);
 	}
+	
+//	@RequestMapping(value = "/delete/user", method = RequestMethod.POST, produces = "application/json")
+//	public ResponVO<String> deleteUserByUserId(@RequestBody String userId){
+//		return userService.deleteUserByUserId(userId);
+//	}
 	
 	@RequestMapping(value = "/delete/users", method = RequestMethod.POST, produces = "application/json")
 	public ResponVO<String> deleteUsersByUserId(@RequestBody List<String> ids){
 		return userService.deleteUsers(ids);
 	}
 	
-	@RequestMapping(value = "/find", method = RequestMethod.POST, produces = "application/json")
-	public ResponVO<PageInfo> findUserByAccount(@RequestBody String userAccount){
-		return userService.findUserByAccount(userAccount);
+	@RequestMapping(value = "/rest_enable", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> restUsersByUserId(@RequestBody List<String> ids){
+		return userService.restUsersByUserId(ids);
+	}
+	
+	@RequestMapping(value = "/find/{isEnable}", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<PageInfo> findUserByAccount(@PathVariable("isEnable") String isEnable, @RequestBody String userAccount){
+		return userService.findUserByAccount(userAccount, isEnable);
+	}
+	
+	@RequestMapping(value = "/find/info/{userId}", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<UserVO> findUserById(@PathVariable("userId") String userId){
+		return userService.findUserById(userId);
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> updateUser(@RequestBody UserVO userVO){
+		return userService.updateUser(userVO);
 	}
 
 }

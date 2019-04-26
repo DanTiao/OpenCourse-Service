@@ -2,6 +2,8 @@ package com.cc.open.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserVO;
 import com.github.pagehelper.PageInfo;
@@ -37,6 +39,19 @@ public interface IUserService {
 	 */
 	ResponVO<String> deleteUsers(List<String> ids);
 
-	ResponVO<PageInfo> findUserByAccount(String userAccount);
+	ResponVO<PageInfo> findUserByAccount(String userAccount, String isEnable);
+
+	ResponVO<UserVO> findUserById(String userId);
+
+	ResponVO<String> updateUser(UserVO userVO);
+
+	/**
+	 * 逻辑删除
+	 * @param userId
+	 * @return
+	 */
+	ResponVO<String> deleteUser(List<String> userId);
+
+	ResponVO<String> restUsersByUserId(List<String> ids);
 
 }

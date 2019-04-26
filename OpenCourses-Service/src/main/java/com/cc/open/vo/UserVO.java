@@ -26,9 +26,13 @@ public class UserVO implements Serializable {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 	/**
-	 * 是否有效(0---失效；1---有效)
+	 * 是否验证(0---无验证；1---验证)
 	 */
 	private String isValid;
+	/**
+	 * 是否有效(0---失效；1---有效)
+	 */
+	private String isEnable;
 
 	public String getUserId() {
 		return userId;
@@ -124,6 +128,14 @@ public class UserVO implements Serializable {
 
 	public void setIsValid(String isValid) {
 		this.isValid = isValid;
+	}
+
+	public String getIsEnable() {
+		return isEnable;
+	}
+
+	public void setIsEnable(String isEnable) {
+		this.isEnable = isEnable;
 	}
 
 }

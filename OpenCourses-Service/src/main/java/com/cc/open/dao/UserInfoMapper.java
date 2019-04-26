@@ -56,7 +56,7 @@ public interface UserInfoMapper {
 	 * 分页查询
 	 * @return
 	 */
-	List<UserVO> findAllUser();
+	List<UserVO> findAllUser(@Param("isEnable") String isEnable);
 
 	/**
 	 * 根据id查用户信息
@@ -72,4 +72,12 @@ public interface UserInfoMapper {
 	 * @param ids
 	 */
 	void deleteUsersByIds(List<String> ids);
+
+	UserVO findAccountById(@Param("userId") String userId);
+
+	int updateUser(@Param("userVO") UserVO userVO);
+
+	void deleteLogically(List<String> userId);
+
+	void restLogically(List<String> ids);
 }
