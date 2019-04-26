@@ -1,6 +1,10 @@
 package com.cc.open.domain;
 
-public class CourseInfo {
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+public class Course {
     private String courseUuid;
 
     private String courseNum;
@@ -11,7 +15,16 @@ public class CourseInfo {
 
     private String courseHour;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date startDate;
+
+    private Date creatTime;
+
     private String academyId;
+
+    private String isEnable;
+
+    private String userId;
 
     public String getCourseUuid() {
         return courseUuid;
@@ -53,11 +66,43 @@ public class CourseInfo {
         this.courseHour = courseHour;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(Date creatTime) {
+        this.creatTime = creatTime;
+    }
+
     public String getAcademyId() {
         return academyId;
     }
 
     public void setAcademyId(String academyId) {
         this.academyId = academyId;
+    }
+
+    public String getIsEnable() {
+        return isEnable;
+    }
+
+    public void setIsEnable(String isEnable) {
+        this.isEnable = isEnable;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

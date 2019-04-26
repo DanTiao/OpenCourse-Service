@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cc.open.dao.CourseInfoMapper">
-  <resultMap id="BaseResultMap" type="com.cc.open.domain.CourseInfo">
+<mapper namespace="com.cc.open.dao.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.cc.open.domain.Course">
     <id column="course_uuid" jdbcType="VARCHAR" property="courseUuid" />
     <result column="course_num" jdbcType="VARCHAR" property="courseNum" />
     <result column="course_name" jdbcType="VARCHAR" property="courseName" />
     <result column="course_credit" jdbcType="VARCHAR" property="courseCredit" />
     <result column="course_hour" jdbcType="VARCHAR" property="courseHour" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
     <result column="academy_id" jdbcType="VARCHAR" property="academyId" />
+    <result column="is_enable" jdbcType="VARCHAR" property="isEnable" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
   </resultMap>
+  <sql id="ResultBase">
+  	course_uuid AS courseId,
+    course_num AS courseNum,
+    course_name AS courseName,
+    course_credit AS courseCredit,
+    course_hour AS courseHour,
+    start_date AS startDate,
+    creat_time AS creatTime,
+    academy_id AS academyId,
+    is_enable AS isEnable,
+    user_id AS userId
+  </sql>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -68,9 +84,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    course_uuid, course_num, course_name, course_credit, course_hour, academy_id
+    course_uuid, course_num, course_name, course_credit, course_hour, start_date, creat_time, 
+    academy_id, is_enable, user_id
   </sql>
-  <select id="selectByExample" parameterType="com.cc.open.domain.CourseInfoExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.cc.open.domain.CourseExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -94,21 +111,23 @@
     delete from t_course_info
     where course_uuid = #{courseUuid,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.cc.open.domain.CourseInfoExample">
+  <delete id="deleteByExample" parameterType="com.cc.open.domain.CourseExample">
     delete from t_course_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.cc.open.domain.CourseInfo">
+  <insert id="insert" parameterType="com.cc.open.domain.Course">
     insert into t_course_info (course_uuid, course_num, course_name, 
-      course_credit, course_hour, academy_id
-      )
+      course_credit, course_hour, start_date, 
+      creat_time, academy_id, is_enable, 
+      user_id)
     values (#{courseUuid,jdbcType=VARCHAR}, #{courseNum,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}, 
-      #{courseCredit,jdbcType=VARCHAR}, #{courseHour,jdbcType=VARCHAR}, #{academyId,jdbcType=VARCHAR}
-      )
+      #{courseCredit,jdbcType=VARCHAR}, #{courseHour,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
+      #{creatTime,jdbcType=TIMESTAMP}, #{academyId,jdbcType=VARCHAR}, #{isEnable,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.cc.open.domain.CourseInfo">
+  <insert id="insertSelective" parameterType="com.cc.open.domain.Course">
     insert into t_course_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="courseUuid != null">
@@ -126,8 +145,20 @@
       <if test="courseHour != null">
         course_hour,
       </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
       <if test="academyId != null">
         academy_id,
+      </if>
+      <if test="isEnable != null">
+        is_enable,
+      </if>
+      <if test="userId != null">
+        user_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -146,12 +177,24 @@
       <if test="courseHour != null">
         #{courseHour,jdbcType=VARCHAR},
       </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="academyId != null">
         #{academyId,jdbcType=VARCHAR},
       </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.cc.open.domain.CourseInfoExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.cc.open.domain.CourseExample" resultType="java.lang.Long">
     select count(*) from t_course_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -175,8 +218,20 @@
       <if test="record.courseHour != null">
         course_hour = #{record.courseHour,jdbcType=VARCHAR},
       </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.creatTime != null">
+        creat_time = #{record.creatTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.academyId != null">
         academy_id = #{record.academyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isEnable != null">
+        is_enable = #{record.isEnable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -190,12 +245,16 @@
       course_name = #{record.courseName,jdbcType=VARCHAR},
       course_credit = #{record.courseCredit,jdbcType=VARCHAR},
       course_hour = #{record.courseHour,jdbcType=VARCHAR},
-      academy_id = #{record.academyId,jdbcType=VARCHAR}
+      start_date = #{record.startDate,jdbcType=DATE},
+      creat_time = #{record.creatTime,jdbcType=TIMESTAMP},
+      academy_id = #{record.academyId,jdbcType=VARCHAR},
+      is_enable = #{record.isEnable,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cc.open.domain.CourseInfo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cc.open.domain.Course">
     update t_course_info
     <set>
       <if test="courseNum != null">
@@ -210,19 +269,60 @@
       <if test="courseHour != null">
         course_hour = #{courseHour,jdbcType=VARCHAR},
       </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="academyId != null">
         academy_id = #{academyId,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
       </if>
     </set>
     where course_uuid = #{courseUuid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cc.open.domain.CourseInfo">
+  <update id="updateByPrimaryKey" parameterType="com.cc.open.domain.Course">
     update t_course_info
     set course_num = #{courseNum,jdbcType=VARCHAR},
       course_name = #{courseName,jdbcType=VARCHAR},
       course_credit = #{courseCredit,jdbcType=VARCHAR},
       course_hour = #{courseHour,jdbcType=VARCHAR},
-      academy_id = #{academyId,jdbcType=VARCHAR}
+      start_date = #{startDate,jdbcType=DATE},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      academy_id = #{academyId,jdbcType=VARCHAR},
+      is_enable = #{isEnable,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR}
     where course_uuid = #{courseUuid,jdbcType=VARCHAR}
   </update>
+  
+  <select id="findCourseByName" resultType="com.cc.open.vo.CourseVO">
+  	SELECT
+  	<include refid="ResultBase"></include>
+  	FROM t_course_info
+  	WHERE 1=1
+  	<if test="courseVO.courseId != null">
+  		AND course_uuid = #{courseVO.courseId,jdbcType=VARCHAR}
+  	</if>
+  	<if test="courseVO.courseName != null">
+  		AND course_name = #{courseVO.courseName,jdbcType=VARCHAR}
+  	</if>
+  </select>
+  
+  <insert id="createCourse" parameterType="com.cc.open.vo.CourseVO">
+  	INSERT INTO t_course_info (course_uuid, course_num, course_name, 
+      course_credit, course_hour, start_date, 
+      creat_time, academy_id, is_enable, 
+      user_id)
+    values (#{courseId,jdbcType=VARCHAR}, #{courseNum,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}, 
+      #{courseCredit,jdbcType=VARCHAR}, #{courseHour,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
+      #{creatTime,jdbcType=TIMESTAMP}, #{academyId,jdbcType=VARCHAR}, #{isEnable,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR})
+  </insert>
+  
 </mapper>
