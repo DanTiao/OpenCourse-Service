@@ -16,7 +16,7 @@ public class AEStest {
 		String a = "2019公开课网站www.OpenCourse.com";
 		String encrypt = AESUtil.encrypt(a);
 		System.out.println(encrypt);
-		String str = AESUtil.decrypt(encrypt);
+		String str = AESUtil.decrypt("7ADE6B3DE3FEA6E6E9486A3E49205453");
 		System.out.println(str);
 	}
 	

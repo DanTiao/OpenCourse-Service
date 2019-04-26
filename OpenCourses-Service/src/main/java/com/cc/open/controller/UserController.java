@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,6 +66,11 @@ public class UserController {
 	@RequestMapping(value = "/delete/users", method = RequestMethod.POST, produces = "application/json")
 	public ResponVO<String> deleteUsersByUserId(@RequestBody List<String> ids){
 		return userService.deleteUsers(ids);
+	}
+	
+	@RequestMapping(value = "/find", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<PageInfo> findUserByAccount(@RequestBody String userAccount){
+		return userService.findUserByAccount(userAccount);
 	}
 
 }

@@ -71,5 +71,5 @@ public interface UserInfoMapper {
 	 * 批量删除
 	 * @param ids
 	 */
-	void deleteUsersByIds(String[] ids);
+	void deleteUsersByIds(List<String> ids);
 }

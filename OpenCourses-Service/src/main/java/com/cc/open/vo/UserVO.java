@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserVO implements Serializable {
 
@@ -13,6 +14,7 @@ public class UserVO implements Serializable {
 	private String userName;
 	private String userAccount;
 	private String userPassword;
+	@JsonIgnore
 	private String secretPassword;
 	private String userEmail;
 	private String userTel;

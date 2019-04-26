@@ -1,6 +1,7 @@
 package com.cc.open.service.impl;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import com.cc.open.service.IUserService;
 import com.cc.open.utils.AESUtil;
 import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserVO;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class userServiceImpl implements IUserService{
@@ -36,15 +38,22 @@ public class userServiceImpl implements IUserService{
 		result.setData(userVO);
 		logger.info("########  Check account info...");
 		UserVO accontInfo = userInfoDao.findAccountInfo(userVO);
-		if(accontInfo != null) {
+		if(accontInfo == null) {
+			logger.info("########  Login fail----User is not exist");
+			result.setCode("500");
+			result.setMessage("User is not exist");
+			return result;
+		}
+		if(AESUtil.decrypt(accontInfo.getSecretPassword()).equals(userVO.getUserPassword())) {
 			logger.info("########  Login successful");
 			result.setCode("200");
 			result.setSuccess(true);
 			result.setData(accontInfo);
-		}else {
-			logger.info("########  Login fail");
-			result.setCode("401");
+			return result;
 		}
+		logger.info("########  Login fail----Password is wrong");
+		result.setCode("401");
+		result.setMessage("Password is wrong");
 		return result;
 	}
 
@@ -104,24 +113,45 @@ public class userServiceImpl implements IUserService{
 	public ResponVO<String> deleteUsers(List<String> ids) {
 		ResponVO<String> result = new ResponVO<String>();
 		result.setSuccess(false);
-		if(ids == null) {
+		if(ids == null || ids.isEmpty()) {
+			logger.info("########  The userIds is null");
 			result.setCode("500");
 			result.setMessage("The userIds is null");
 			return result;
 		}
-//		userInfoDao.deleteUsersByIds(ids);
-		deleteUsersByIds(ids);
+		userInfoDao.deleteUsersByIds(ids);
 		logger.info("########  Delete user successful");
 		result.setCode("200");
 		result.setSuccess(true);
 		return result;
 	}
-	
-	private void deleteUsersByIds(List<String> ids) {
-		UserInfoExample example = new UserInfoExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andUserUuidIn(ids);
-		userInfoDao.deleteByExample(example);
+
+	@Override
+	public ResponVO<PageInfo> findUserByAccount(String userAccount) {
+		ResponVO<PageInfo> result = new ResponVO<>();
+		result.setSuccess(false);
+		if(userAccount.isEmpty()) {
+			logger.info("########  Account is null");
+			result.setCode("500");
+			result.setMessage("Account is null");
+			return result;
+		}
+		UserVO user = userInfoDao.findAccountByAccount(userAccount);
+		if(user != null) {
+			List<UserVO> list = new ArrayList<UserVO>();
+			list.add(user);
+			PageInfo pageInfo = new PageInfo(list);
+			logger.info("########  Find account successful");
+			result.setCode("200");
+			result.setSuccess(true);
+			result.setMessage("Find account successful");
+			result.setData(pageInfo);
+			return result;
+		}
+		logger.info("########  User is not exist");
+		result.setCode("500");
+		result.setMessage("用户不存在");
+		return result;
 	}
 
 }

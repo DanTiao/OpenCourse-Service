@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserVO;
+import com.github.pagehelper.PageInfo;
 
 
 public interface IUserService {
@@ -35,5 +36,7 @@ public interface IUserService {
 	 * @return
 	 */
 	ResponVO<String> deleteUsers(List<String> ids);
+
+	ResponVO<PageInfo> findUserByAccount(String userAccount);
 
 }
