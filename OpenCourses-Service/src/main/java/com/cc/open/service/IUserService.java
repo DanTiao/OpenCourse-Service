@@ -54,4 +54,6 @@ public interface IUserService {
 
 	ResponVO<String> restUsersByUserId(List<String> ids);
 
+	ResponVO<String> restPssword(String userId);
+
 }

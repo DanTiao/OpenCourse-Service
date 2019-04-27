@@ -102,5 +102,11 @@ public class UserController {
 	public ResponVO<String> updateUser(@RequestBody UserVO userVO){
 		return userService.updateUser(userVO);
 	}
+	
+	
+	@RequestMapping(value = "/rest_password", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> restPssword(@RequestBody String userId){
+		return userService.restPssword(userId);
+	}
 
 }

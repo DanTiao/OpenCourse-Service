@@ -1,6 +1,8 @@
 package com.cc.open.service.impl;
 
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -55,6 +57,9 @@ public class userServiceImpl implements IUserService{
 			logger.info("########  Login successful");
 			request.getSession().setAttribute("logingUser", accontInfo);
 			logger.info(request.getSession().getId());
+			userVO.setLastLogin(new Date());
+			userVO.setUserPassword(null);
+			userInfoDao.updateUser(userVO);
 			result.setCode("200");
 			result.setSuccess(true);
 			result.setData(accontInfo);
@@ -87,6 +92,7 @@ public class userServiceImpl implements IUserService{
 		userVO.setUserType(UserRoleConstant.TEACHER);
 		userVO.setCreateTime(new Date());
 		userVO.setUpdateTime(new Date());
+		userVO.setIsEnable("1");
 		userVO.setIsValid("1");
 		int flag = userInfoDao.createUser(userVO);
 		if(flag>0) {
@@ -220,6 +226,7 @@ public class userServiceImpl implements IUserService{
 			result.setMessage("用户名不存在");
 			return result;
 		}
+		userVO.setLastLogin(null);
 		userVO.setUserEmail(AESUtil.encrypt(userVO.getUserEmail()));
 		userVO.setUserTel(AESUtil.encrypt(userVO.getUserTel()));
 		userVO.setUpdateTime(new Date());
@@ -266,6 +273,41 @@ public class userServiceImpl implements IUserService{
 		logger.info("########  Rest user successful");
 		result.setCode("200");
 		result.setSuccess(true);
+		return result;
+	}
+
+	@Override
+	public ResponVO<String> restPssword(String userId) {
+		ResponVO<String> result = new ResponVO<String>();
+		result.setSuccess(false);
+		result.setCode("500");
+		UserVO user = SessionCommon.checkUser(request);
+		if(user == null) {
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!UserRoleConstant.SUPADMIN.equals(user.getUserType())) {
+			result.setMessage("当前登录用户权限不足");
+			return result;
+		}
+		int randNum = 0;
+		try {
+			randNum = SecureRandom.getInstance("SHA1PRNG").nextInt(999999999);
+		} catch (NoSuchAlgorithmException e) {
+			logger.info("NoSuchAlgorithmException"+e);
+		}
+		UserVO userVO = new UserVO();
+		String password = Integer.toString(randNum);
+		String secuPwd = AESUtil.encrypt(password);
+		userVO.setUserId(userId);
+		userVO.setUserPassword(secuPwd);
+		userVO.setUpdateTime(new Date());
+		userInfoDao.updateUser(userVO);
+		result.setCode("200");
+		result.setSuccess(true);
+		result.setMessage("重置密码成功");
+		result.setData(password);
 		return result;
 	}
 
