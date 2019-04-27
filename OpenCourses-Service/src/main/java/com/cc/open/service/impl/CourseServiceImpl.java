@@ -3,6 +3,7 @@ package com.cc.open.service.impl;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -17,10 +18,14 @@ import org.springframework.stereotype.Service;
 import com.cc.open.common.SessionCommon;
 import com.cc.open.common.UserRoleConstant;
 import com.cc.open.dao.CourseMapper;
+import com.cc.open.dao.UserCourseMapper;
+import com.cc.open.domain.UserCourse;
 import com.cc.open.service.ICourseService;
+import com.cc.open.service.IUserCourseService;
 import com.cc.open.utils.AESUtil;
 import com.cc.open.vo.CourseVO;
 import com.cc.open.vo.ResponVO;
+import com.cc.open.vo.UserCourseVO;
 import com.cc.open.vo.UserVO;
 import com.github.pagehelper.PageInfo;
 
@@ -34,6 +39,12 @@ public class CourseServiceImpl implements ICourseService {
 	
 	@Autowired
 	private CourseMapper courseDao;
+	
+	@Autowired
+	private IUserCourseService userCourseService;
+	
+	@Autowired
+	private UserCourseMapper userCourseDao;
 
 	@Override
 	public ResponVO<CourseVO> createCourse(CourseVO courseVO) {
@@ -216,5 +227,7 @@ public class CourseServiceImpl implements ICourseService {
 		}
 		return result;
 	}
+
+
 
 }

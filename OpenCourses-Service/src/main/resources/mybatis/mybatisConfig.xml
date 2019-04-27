@@ -18,8 +18,9 @@
     <table tableName="t_teacher" domainObjectName="Teacher"></table>
     <table tableName="t_student" domainObjectName="Student"></table>
     <table tableName="t_grade" domainObjectName="Grade"></table>
-    <table tableName="t_class" domainObjectName="Class"></table>-->
-    <table tableName="t_academy" domainObjectName="Academy"></table>
+    <table tableName="t_class" domainObjectName="Class"></table>
+    <table tableName="t_academy" domainObjectName="Academy"></table>-->
+    <table tableName="t_user_course" domainObjectName="UserCourse"></table>
     
   </context>
 </generatorConfiguration>

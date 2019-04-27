@@ -22,4 +22,5 @@ public interface ICourseService {
 
 	ResponVO<String> updateCourse(CourseVO courseVO);
 
+
 }
