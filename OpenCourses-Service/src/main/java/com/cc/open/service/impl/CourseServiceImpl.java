@@ -2,7 +2,9 @@ package com.cc.open.service.impl;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -14,6 +16,8 @@ import com.cc.open.dao.CourseMapper;
 import com.cc.open.service.ICourseService;
 import com.cc.open.vo.CourseVO;
 import com.cc.open.vo.ResponVO;
+import com.cc.open.vo.UserVO;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class CourseServiceImpl implements ICourseService {
@@ -39,7 +43,7 @@ public class CourseServiceImpl implements ICourseService {
 		}
 		String id = UUID.randomUUID().toString();
 		courseVO.setCourseId(id);
-		courseVO.setCreatTime(new Date());
+		courseVO.setCreateTime(new Date());
 		courseVO.setIsEnable("1");
 		int randNum = 0;
 		try {
@@ -54,7 +58,7 @@ public class CourseServiceImpl implements ICourseService {
 			flag = courseDao.createCourse(courseVO);
 		} catch (Exception e) {
 			logger.error("Creat course fail------"+e);
-			result.setMessage("学院编号不存在");
+			result.setMessage("创建课程失败");
 			return result;
 		}
 		if(flag>0) {
@@ -67,6 +71,88 @@ public class CourseServiceImpl implements ICourseService {
 			result.setMessage("增加失败");
 			logger.info("########  Create course fail");
 		}
+		return result;
+	}
+
+	@Override
+	public ResponVO<String> deleteCourses(List<String> courseIds) {
+		ResponVO<String> result = new ResponVO<String>();
+		result.setSuccess(false);
+		if(courseIds.isEmpty() || courseIds == null) {
+			result.setCode("500");
+			result.setMessage("The courseIds is null");
+			return result;
+		}
+		courseDao.deleteCourseLogically(courseIds);
+		logger.info("########  Delete user successful");
+		result.setCode("200");
+		result.setSuccess(true);
+		return result;
+	}
+
+	@Override
+	public ResponVO<String> restCourses(List<String> courseIds) {
+		ResponVO<String> result = new ResponVO<String>();
+		result.setSuccess(false);
+		if(courseIds.isEmpty() || courseIds == null) {
+			result.setCode("500");
+			result.setMessage("The courseIds is null");
+			return result;
+		}
+		courseDao.restCourseLogically(courseIds);
+		logger.info("########  Delete user successful");
+		result.setCode("200");
+		result.setSuccess(true);
+		return result;
+	}
+
+	@Override
+	public ResponVO<PageInfo> findCourseByParam(CourseVO data, String isEnable) {
+		ResponVO<PageInfo> result = new ResponVO<>();
+		result.setSuccess(false);
+		if(data == null) {
+			logger.info("########  Param of searching is null");
+			result.setCode("500");
+			result.setMessage("查询参数为空");
+			return result;
+		}
+		if(data.getAcademyId().isEmpty()) {
+			data.setAcademyId(null);
+		}
+		if(data.getCourseName().isEmpty()) {
+			data.setCourseName(null);
+		}
+		data.setIsEnable(isEnable);
+		List<CourseVO> list = courseDao.findCourseByParam(data);
+		if(!list.isEmpty()) {
+			PageInfo pageInfo = new PageInfo(list);
+			logger.info("########  Find course successful");
+			result.setCode("200");
+			result.setSuccess(true);
+			result.setMessage("Find course successful");
+			result.setData(pageInfo);
+			return result;
+		}
+		logger.info("########  course is not exist");
+		result.setCode("500");
+		result.setMessage("课程不存在");
+		return result;
+	}
+
+	@Override
+	public ResponVO<String> deleteCoursePhy(List<String> courseIds) {
+		ResponVO<String> result = new ResponVO<String>();
+		result.setSuccess(false);
+		if(courseIds == null || courseIds.isEmpty()) {
+			logger.info("########  The courseIds is null");
+			result.setCode("500");
+			result.setMessage("The courseIds is null");
+			return result;
+		}
+		courseDao.deleteCourseByIds(courseIds);
+		logger.info("########  Delete course successful");
+		result.setCode("200");
+		result.setSuccess(true);
 		return result;
 	}
 

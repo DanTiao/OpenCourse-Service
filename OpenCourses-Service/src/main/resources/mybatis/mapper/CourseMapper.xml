@@ -314,6 +314,35 @@
   	</if>
   </select>
   
+  <select id="findCourseByParam" resultType="com.cc.open.vo.CourseVO">
+  	SELECT
+  	  c.course_uuid AS courseId,
+      c.course_num AS courseNum,
+      c.course_name AS courseName,
+      c.course_credit AS courseCredit,
+      c.course_hour AS courseHour,
+      c.start_date AS startDate,
+      c.creat_time AS createTime,
+      c.academy_id AS academyId,
+      a.academy_name AS academyName,
+      c.is_enable AS isEnable,
+      c.user_id AS userId
+    FROM t_course_info c,t_academy a
+    WHERE c.academy_id = a.academy_id AND  c.is_enable = #{data.isEnable,jdbcType=VARCHAR}
+    <if test="data.academyId != null">
+    	AND c.academy_id = #{data.academyId,jdbcType=VARCHAR}
+    </if>
+    <if test="data.courseName != null">
+    	AND c.course_name = #{data.courseName,jdbcType=VARCHAR}
+    </if>
+    <if test="data.start != null">
+    	AND c.start_date &gt;= #{data.start,jdbcType=VARCHAR}
+    </if>
+    <if test="data.end != null">
+    	AND c.start_date &lt;= #{data.end,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
   <insert id="createCourse" parameterType="com.cc.open.vo.CourseVO">
   	INSERT INTO t_course_info (course_uuid, course_num, course_name, 
       course_credit, course_hour, start_date, 
@@ -321,7 +350,7 @@
       user_id)
     values (#{courseId,jdbcType=VARCHAR}, #{courseNum,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}, 
       #{courseCredit,jdbcType=VARCHAR}, #{courseHour,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
-      #{creatTime,jdbcType=TIMESTAMP}, #{academyId,jdbcType=VARCHAR}, #{isEnable,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{academyId,jdbcType=VARCHAR}, #{isEnable,jdbcType=VARCHAR}, 
       #{userId,jdbcType=VARCHAR})
   </insert>
   
@@ -333,13 +362,42 @@
       c.course_credit AS courseCredit,
       c.course_hour AS courseHour,
       c.start_date AS startDate,
-      c.creat_time AS creatTime,
+      c.creat_time AS createTime,
       c.academy_id AS academyId,
       a.academy_name AS academyName,
       c.is_enable AS isEnable,
       c.user_id AS userId
     FROM t_course_info c,t_academy a
-    WHERE c.academy_id = a.academy_id
+    WHERE c.academy_id = a.academy_id AND c.is_enable = #{isEnable,jdbcType=VARCHAR}
   </select>
+  
+  <update id="deleteCourseLogically" parameterType="java.util.List">
+  	UPDATE t_course_info
+  	set  is_enable = '0'
+    where course_uuid in
+    <foreach collection="list" index="index" item="item" 
+        separator="," open="(" close=")">
+        #{item,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  
+  <update id="restCourseLogically" parameterType="java.util.List">
+  	UPDATE t_course_info
+  	set  is_enable = '1'
+    where course_uuid in
+    <foreach collection="list" index="index" item="item" 
+        separator="," open="(" close=")">
+        #{item,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  
+  <delete id="deleteCourseByIds" parameterType="java.util.List">
+  	DELETE FROM t_course_info
+  	WHERE course_uuid IN
+  	<foreach collection="list" index="index" item="item" 
+        separator="," open="(" close=")">
+        #{item,jdbcType=BIGINT}
+    </foreach>
+  </delete>
   
 </mapper>

@@ -34,5 +34,13 @@ public interface CourseMapper {
 
 	int createCourse(CourseVO courseVO);
 
-	List<CourseVO> findAllCourse(String isEnable);
+	List<CourseVO> findAllCourse(@Param("isEnable") String isEnable);
+
+	void deleteCourseLogically(List<String> courseIds);
+	
+	void restCourseLogically(List<String> courseIds);
+
+	List<CourseVO> findCourseByParam(@Param("data") CourseVO data);
+
+	void deleteCourseByIds(List<String> courseIds);
 }

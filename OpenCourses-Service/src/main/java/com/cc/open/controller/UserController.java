@@ -88,6 +88,11 @@ public class UserController {
 		return userService.findUserByAccount(userAccount, isEnable);
 	}
 	
+	/**
+	 * 通过用户id获取用户信息
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping(value = "/find/info/{userId}", method = RequestMethod.POST, produces = "application/json")
 	public ResponVO<UserVO> findUserById(@PathVariable("userId") String userId){
 		return userService.findUserById(userId);

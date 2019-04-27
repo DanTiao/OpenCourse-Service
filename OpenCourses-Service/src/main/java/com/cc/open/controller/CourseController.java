@@ -55,4 +55,39 @@ public class CourseController {
 		return result;
 	}
 	
+	/**
+	 * 逻辑删除
+	 * @param courseIds
+	 * @return
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> deleteCourseLogically(@RequestBody List<String> courseIds){
+		return courseService.deleteCourses(courseIds);
+	}
+	
+	/**
+	 * 物理删除
+	 * @param courseIds
+	 * @return
+	 */
+	@RequestMapping(value = "/delete/courses", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> deleteCoursePhysically(@RequestBody List<String> courseIds){
+		return courseService.deleteCoursePhy(courseIds);
+	}
+	
+	/**
+	 * 逻辑恢复
+	 * @param courseIds
+	 * @return
+	 */
+	@RequestMapping(value = "/rest", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> restCourseLogically(@RequestBody List<String> courseIds){
+		return courseService.restCourses(courseIds);
+	}
+	
+	@RequestMapping(value = "/find/{isEnable}", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<PageInfo> findCourseByParam(@PathVariable("isEnable") String isEnable, @RequestBody CourseVO data){
+		return courseService.findCourseByParam(data, isEnable);
+	}
+	
 }

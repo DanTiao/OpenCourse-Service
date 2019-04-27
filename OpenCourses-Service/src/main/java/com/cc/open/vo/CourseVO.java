@@ -25,13 +25,22 @@ public class CourseVO implements Serializable {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date startDate;
 
-    private Date creatTime;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 
     private String academyId;
+    
+    private String academyName;
 
     private String isEnable;
 
     private String userId;
+    
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date start;
+    
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date end;
 
 	public String getCourseId() {
 		return courseId;
@@ -81,12 +90,12 @@ public class CourseVO implements Serializable {
 		this.startDate = startDate;
 	}
 
-	public Date getCreatTime() {
-		return creatTime;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreatTime(Date creatTime) {
-		this.creatTime = creatTime;
+	public void setCreateTime(Date creatTime) {
+		this.createTime = creatTime;
 	}
 
 	public String getAcademyId() {
@@ -111,6 +120,30 @@ public class CourseVO implements Serializable {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getAcademyName() {
+		return academyName;
+	}
+
+	public void setAcademyName(String academyName) {
+		this.academyName = academyName;
+	}
+
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
 	}
     
 
