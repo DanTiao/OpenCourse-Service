@@ -400,4 +400,39 @@
     </foreach>
   </delete>
   
+  <update id="updateCourse" parameterType="com.cc.open.vo.CourseVO">
+  	UPDATE t_course_info
+  	<set>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCredit != null">
+        course_credit = #{courseCredit,jdbcType=VARCHAR},
+      </if>
+      <if test="courseHour != null">
+        course_hour = #{courseHour,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="academyId != null">
+        academy_id = #{academyId,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <where>
+    	<if test="courseId != null">
+            course_uuid = #{courseId,jdbcType=VARCHAR}
+      	</if>
+      	<if test="courseNum != null">
+           AND course_num = #{courseNum,jdbcType=VARCHAR}
+      	</if>
+    </where>
+  </update>
+  
 </mapper>

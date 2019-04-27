@@ -19,6 +19,7 @@ import com.cc.open.service.ICourseService;
 import com.cc.open.vo.AcademyVO;
 import com.cc.open.vo.CourseVO;
 import com.cc.open.vo.ResponVO;
+import com.cc.open.vo.UserVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -88,6 +89,16 @@ public class CourseController {
 	@RequestMapping(value = "/find/{isEnable}", method = RequestMethod.POST, produces = "application/json")
 	public ResponVO<PageInfo> findCourseByParam(@PathVariable("isEnable") String isEnable, @RequestBody CourseVO data){
 		return courseService.findCourseByParam(data, isEnable);
+	}
+	
+	@RequestMapping(value = "/find/info/{courseId}", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<CourseVO> findCourseById(@PathVariable("courseId") String courseId){
+		return courseService.findCourseById(courseId);
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> updateCourse(@RequestBody CourseVO courseVO){
+		return courseService.updateCourse(courseVO);
 	}
 	
 }

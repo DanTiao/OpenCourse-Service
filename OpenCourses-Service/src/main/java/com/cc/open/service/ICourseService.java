@@ -18,4 +18,8 @@ public interface ICourseService {
 
 	ResponVO<String> deleteCoursePhy(List<String> courseIds);
 
+	ResponVO<CourseVO> findCourseById(String courseId);
+
+	ResponVO<String> updateCourse(CourseVO courseVO);
+
 }

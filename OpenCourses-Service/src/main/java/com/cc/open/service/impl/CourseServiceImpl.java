@@ -7,13 +7,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cc.open.common.SessionCommon;
+import com.cc.open.common.UserRoleConstant;
 import com.cc.open.dao.CourseMapper;
 import com.cc.open.service.ICourseService;
+import com.cc.open.utils.AESUtil;
 import com.cc.open.vo.CourseVO;
 import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserVO;
@@ -25,6 +30,9 @@ public class CourseServiceImpl implements ICourseService {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
+	private HttpServletRequest request;
+	
+	@Autowired
 	private CourseMapper courseDao;
 
 	@Override
@@ -34,7 +42,7 @@ public class CourseServiceImpl implements ICourseService {
 		result.setCode("500");
 		result.setData(courseVO);
 		logger.info("########  Create course");
-		//用户名是否已存在
+		//课程是否已存在
 		CourseVO course = courseDao.findCourseByName(courseVO);
 		if(course != null) {
 			logger.info("########  Course already exists");
@@ -153,6 +161,59 @@ public class CourseServiceImpl implements ICourseService {
 		logger.info("########  Delete course successful");
 		result.setCode("200");
 		result.setSuccess(true);
+		return result;
+	}
+
+	@Override
+	public ResponVO<CourseVO> findCourseById(String courseId) {
+		ResponVO<CourseVO> result = new ResponVO<>();
+		result.setSuccess(false);
+		result.setCode("500");
+		CourseVO courseVO = new CourseVO();
+		courseVO.setCourseId(courseId);
+		CourseVO course = courseDao.findCourseByName(courseVO);
+		if(course != null) {
+			result.setCode("200");
+			result.setData(course);
+			result.setSuccess(true);
+		}	
+		return result;
+	}
+
+	@Override
+	public ResponVO<String> updateCourse(CourseVO courseVO) {
+		logger.info(request.getSession().getId());
+		ResponVO<String> result = new ResponVO<>();
+		result.setSuccess(false);
+		UserVO userSession = SessionCommon.checkUser(request);
+		if(userSession == null) {
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!UserRoleConstant.SUPADMIN.equals(userSession.getUserType()) && !UserRoleConstant.ADMIN.equals(userSession.getUserType())) {
+			result.setMessage("当前登录用户权限不足");
+			return result;
+		}
+		logger.info("########  Update user");
+		//用户名是否已存在
+		if(courseDao.findCourseByName(courseVO) == null) {
+			logger.info("########  Username is not exists");
+			result.setMessage("课程不存在");
+			return result;
+		}
+		
+		int flag = courseDao.updateCourse(courseVO);
+		if(flag>0) {
+			result.setCode("200");
+			result.setMessage("修改成功");
+			result.setSuccess(true);
+			logger.info("########  Update course successful");
+		}else {
+			result.setCode("500");
+			result.setMessage("修改失败");
+			logger.info("########  Update course fail");
+		}
 		return result;
 	}
 
