@@ -325,4 +325,21 @@
       #{userId,jdbcType=VARCHAR})
   </insert>
   
+  <select id="findAllCourse" resultType="com.cc.open.vo.CourseVO">
+  	SELECT
+  	  c.course_uuid AS courseId,
+      c.course_num AS courseNum,
+      c.course_name AS courseName,
+      c.course_credit AS courseCredit,
+      c.course_hour AS courseHour,
+      c.start_date AS startDate,
+      c.creat_time AS creatTime,
+      c.academy_id AS academyId,
+      a.academy_name AS academyName,
+      c.is_enable AS isEnable,
+      c.user_id AS userId
+    FROM t_course_info c,t_academy a
+    WHERE c.academy_id = a.academy_id
+  </select>
+  
 </mapper>

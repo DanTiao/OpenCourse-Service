@@ -27,6 +27,7 @@ public class CourseServiceImpl implements ICourseService {
 	public ResponVO<CourseVO> createCourse(CourseVO courseVO) {
 		ResponVO<CourseVO> result = new ResponVO<>();
 		result.setSuccess(false);
+		result.setCode("500");
 		result.setData(courseVO);
 		logger.info("########  Create course");
 		//用户名是否已存在
@@ -48,8 +49,14 @@ public class CourseServiceImpl implements ICourseService {
 		}
 		String num = "C"+Integer.toString(randNum);
 		courseVO.setCourseNum(num);
-		
-		int flag = courseDao.createCourse(courseVO);
+		int flag = -1;
+		try {
+			flag = courseDao.createCourse(courseVO);
+		} catch (Exception e) {
+			logger.error("Creat course fail------"+e);
+			result.setMessage("学院编号不存在");
+			return result;
+		}
 		if(flag>0) {
 			result.setCode("200");
 			result.setMessage("增加成功");
@@ -57,7 +64,6 @@ public class CourseServiceImpl implements ICourseService {
 			result.setData(courseVO);
 			logger.info("########  Create course successful");
 		}else {
-			result.setCode("500");
 			result.setMessage("增加失败");
 			logger.info("########  Create course fail");
 		}

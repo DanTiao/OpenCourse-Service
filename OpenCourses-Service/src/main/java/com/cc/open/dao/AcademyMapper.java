@@ -2,6 +2,8 @@ package com.cc.open.dao;
 
 import com.cc.open.domain.Academy;
 import com.cc.open.domain.AcademyExample;
+import com.cc.open.vo.AcademyVO;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +12,7 @@ public interface AcademyMapper {
 
     int deleteByExample(AcademyExample example);
 
-    int deleteByPrimaryKey(String academyUuid);
+    int deleteByPrimaryKey(String academyId);
 
     int insert(Academy record);
 
@@ -18,7 +20,7 @@ public interface AcademyMapper {
 
     List<Academy> selectByExample(AcademyExample example);
 
-    Academy selectByPrimaryKey(String academyUuid);
+    Academy selectByPrimaryKey(String academyId);
 
     int updateByExampleSelective(@Param("record") Academy record, @Param("example") AcademyExample example);
 
@@ -27,4 +29,6 @@ public interface AcademyMapper {
     int updateByPrimaryKeySelective(Academy record);
 
     int updateByPrimaryKey(Academy record);
+
+	List<AcademyVO> findAllAcademy();
 }

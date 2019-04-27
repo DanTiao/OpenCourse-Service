@@ -33,4 +33,6 @@ public interface CourseMapper {
 	CourseVO findCourseByName(@Param("courseVO") CourseVO courseVO);
 
 	int createCourse(CourseVO courseVO);
+
+	List<CourseVO> findAllCourse(String isEnable);
 }
