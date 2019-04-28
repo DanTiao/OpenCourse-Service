@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,41 +28,54 @@ public class CourseDataController {
 	@Autowired
 	private ICourseDataService courseDataService;
 	
-	@RequestMapping(value = "/upload/file", method = RequestMethod.POST, produces = "application/json")
-	public ResponVO<String> uploadCourseFile(@RequestParam("file") MultipartFile file){
-		ResponVO<String> result = new ResponVO<>();
+	@RequestMapping(value = "/upload/video", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<CourseDataVO> uploadCourseVideo(@RequestParam("courseId") String courseId, @RequestParam("file") MultipartFile file){
+		ResponVO<CourseDataVO> result = new ResponVO<>();
 		result.setCode("500");
 		result.setSuccess(false);
 		if(file == null){
 			result.setMessage("文件上传失败");
-	    }else{
-	    	String path = FileUploadUtil.uploadFile(file, ConstantCommon.SAVE_URL, ConstantCommon.FILE_TYPE_DOC);
-	    	if(path != null) {
-	    		result.setCode("200");
-	    		result.setSuccess(true);
-	    		result.setMessage("文件上传成功");
-	    		result.setData(path);
-	    	}
+			return result;
 	    }
-		return result;
+		return courseDataService.uploadCourseDataOne(courseId,ConstantCommon.SAVE_URL_VIDEOS,file);	
 	}
 	
-	@RequestMapping(value = "/upload/files", method = RequestMethod.POST, produces = "application/json")
-	public ResponVO<List<String>> uploadCourseVideo(@RequestParam("file") MultipartFile[] files){
+	@RequestMapping(value = "/upload/doc", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<CourseDataVO> uploadCourseDoc(@RequestParam("courseId") String courseId, @RequestParam("file") MultipartFile file){
+		ResponVO<CourseDataVO> result = new ResponVO<>();
+		result.setCode("500");
+		result.setSuccess(false);
+		if(file == null){
+			result.setMessage("文件上传失败");
+			return result;
+	    }
+		return courseDataService.uploadCourseDataOne(courseId,ConstantCommon.SAVE_URL_DOC,file);	
+	}
+	
+	@RequestMapping(value = "/upload/files/{courseId}", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<List<String>> uploadCourseDatas(@PathVariable("courseId") String courseId, @RequestParam("file") MultipartFile[] files){
 		ResponVO<List<String>> result = new ResponVO<>();
 		result.setCode("500");
 		result.setSuccess(false);
 		if(files == null){
 			result.setMessage("文件上传失败");
-	    }else{
-	    	List<String> paths = FileUploadUtil.uploadFileS(files, ConstantCommon.SAVE_URL, ConstantCommon.FILE_TYPE_VIDEO);
-	    	if(paths != null) {
-	    		result.setCode("200");
-	    		result.setSuccess(true);
-	    		result.setMessage("文件上传成功");
-	    		result.setData(paths);
-	    	}
+			return result;
 	    }
-		return result;
+		return courseDataService.uploadCourseDatas(courseId,files);	
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> updateCourseData(@RequestBody CourseDataVO courseDataVO){		
+		return courseDataService.updateCourseData(courseDataVO);
+	}
+	
+	@RequestMapping(value = "/find/{courseId}", method = RequestMethod.GET, produces = "application/json")
+	public ResponVO<CourseDataVO> getCourseData(@PathVariable("courseId") String courseId){		
+		return courseDataService.getCourseData(courseId);
+	}
+	
+	@RequestMapping(value = "/delect", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> deleteCourseData(@RequestBody CourseDataVO courseDataVO){		
+		return courseDataService.deleteCourseDataUrl(courseDataVO);
 	}
 }

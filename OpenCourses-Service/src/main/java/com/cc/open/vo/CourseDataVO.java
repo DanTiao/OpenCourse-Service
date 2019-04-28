@@ -20,8 +20,12 @@ public class CourseDataVO implements Serializable {
 
     private String book;
 
+    private String videoName;
+    
     private String videoPath;
 
+    private String FileName;
+    
     private String filePath;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -92,6 +96,22 @@ public class CourseDataVO implements Serializable {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getVideoName() {
+		return videoName;
+	}
+
+	public void setVideoName(String videoName) {
+		this.videoName = videoName;
+	}
+
+	public String getFileName() {
+		return FileName;
+	}
+
+	public void setFileName(String fileName) {
+		FileName = fileName;
 	}
     
 

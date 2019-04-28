@@ -26,16 +26,14 @@ public class FileUploadUtil {
 	 * @param fileType
 	 * @return
 	 */
-	public static String uploadFile(MultipartFile file, String saveUrl, String fileType) {
+	public static String uploadFile(MultipartFile file, String saveUrl, String courseId) {
 		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 	    String fileName = UUID.randomUUID() + suffix;
 	    Date now = new Date(); 
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    String nowDate = dateFormat.format(now); 
-	    String newUrl = saveUrl+"\\"+nowDate+"\\"+"cover\\"+fileName;
+	    String newUrl = saveUrl+"\\"+nowDate+"\\"+courseId+"\\"+fileName;
 	    logger.info("文件路径：" + newUrl);
-	    String[] type_array = fileType.split(",");
-	    logger.info("type  :  "+type_array.length);
 	    File saveFile = new File(newUrl);
 	    if(!saveFile.getParentFile().exists()){
 	        saveFile.getParentFile().mkdirs();
@@ -54,12 +52,12 @@ public class FileUploadUtil {
 	 * @function 多文件上传
 	 * @return
 	 */
-	public static List<String> uploadFileS(MultipartFile[] files , String saveUrl, String fileType){
+	public static List<String> uploadFileS(MultipartFile[] files , String saveUrl, String courseId){
 	    List<String> picUrl = new ArrayList<String>();
 	    Date now = new Date(); 
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    String nowDate = dateFormat.format(now); 
-	    String newUrl = saveUrl + "\\" + nowDate + "\\pic\\";
+	    String newUrl = saveUrl + "\\" + nowDate+"\\" +courseId+ "\\";
 	    File saveDir = new File(newUrl);
 	    if(!saveDir.exists()){
 	        saveDir.mkdirs();

@@ -11,6 +11,18 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+  <sql id="BaseResult">
+  	id,
+  	course_id AS courseId,
+  	introduction,
+  	book,
+  	video_name AS videoName,
+  	video_path AS videoPath,
+  	file_name AS fileName,
+  	file_path AS filePath,
+  	create_time AS createTime,
+  	update_time AS updateTime
+  </sql>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -255,4 +267,121 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="findCourseDataByCourseId" resultType="com.cc.open.vo.CourseDataVO">
+  SELECT
+  	<include refid="BaseResult"></include>
+  	FROM t_data_course
+  	WHERE course_id = #{courseId,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="createCourseData" parameterType="com.cc.open.vo.CourseDataVO">
+  	insert into t_data_course (
+        id
+      <if test="courseDataVO.courseId != null">
+        ,course_id
+      </if>
+      <if test="courseDataVO.introduction != null">
+        ,introduction
+      </if>
+      <if test="courseDataVO.book != null">
+        ,book
+      </if>
+      <if test="courseDataVO.videoName != null">
+        ,video_name
+      </if>    
+      <if test="courseDataVO.videoPath != null">
+        ,video_path
+      </if>
+      <if test="courseDataVO.fileName != null">
+        ,file_name
+      </if>
+      <if test="courseDataVO.filePath != null">
+        ,file_path
+      </if>
+      <if test="courseDataVO.createTime != null">
+        ,create_time
+      </if>
+      <if test="courseDataVO.updateTime != null">
+        ,update_time
+      </if>
+    )values (
+        #{courseDataVO.id,jdbcType=VARCHAR}
+      <if test="courseDataVO.courseId != null">
+        ,#{courseDataVO.courseId,jdbcType=VARCHAR}
+      </if>
+      <if test="courseDataVO.introduction != null">
+        ,#{courseDataVO.introduction,jdbcType=VARCHAR}
+      </if>
+      <if test="courseDataVO.book != null">
+        ,#{courseDataVO.book,jdbcType=VARCHAR}
+      </if>
+      <if test="courseDataVO.videoName != null">
+        ,#{courseDataVO.videoName,jdbcType=VARCHAR}
+      </if>
+      <if test="courseDataVO.videoPath != null">
+        ,#{courseDataVO.videoPath,jdbcType=VARCHAR}
+      </if>
+      <if test="courseDataVO.fileName != null">
+        ,#{courseDataVO.fileName,jdbcType=VARCHAR}
+      </if>
+      <if test="courseDataVO.filePath != null">
+        ,#{courseDataVO.filePath,jdbcType=VARCHAR}
+      </if>
+      <if test="courseDataVO.createTime != null">
+        ,#{courseDataVO.createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="courseDataVO.updateTime != null">
+        ,#{courseDataVO.updateTime,jdbcType=TIMESTAMP}
+      </if>
+      )
+  </insert>
+  
+  <update id="updateCourseData" parameterType="com.cc.open.vo.CourseDataVO">
+  	update t_data_course
+    <set>
+      <if test="courseDataVO.courseId != null">
+        course_id = #{courseDataVO.courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDataVO.introduction != null">
+        introduction = #{courseDataVO.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDataVO.book != null">
+        book = #{courseDataVO.book,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDataVO.videoName != null">
+        video_name = #{courseDataVO.videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDataVO.videoPath != null">
+        video_path = #{courseDataVO.videoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDataVO.fileName != null">
+        file_name = #{courseDataVO.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDataVO.filePath != null">
+        file_path = #{courseDataVO.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDataVO.createTime != null">
+        create_time = #{courseDataVO.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseDataVO.updateTime != null">
+        update_time = #{courseDataVO.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{courseDataVO.id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="deleteCourseDataUrl" parameterType="com.cc.open.vo.CourseDataVO">
+  	update t_data_course
+  	set
+  	<if test="courseDataVO.videoPath != null">
+        video_path = null, video_name = null
+      </if>
+      <if test="courseDataVO.filePath != null">
+        file_path = null, file_name = null
+      </if>
+      where
+      id = #{courseDataVO.id,jdbcType=VARCHAR}
+  </update>
+  
 </mapper>
