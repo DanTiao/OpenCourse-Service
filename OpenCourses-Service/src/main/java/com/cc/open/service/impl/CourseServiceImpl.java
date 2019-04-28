@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cc.open.common.SessionCommon;
-import com.cc.open.common.UserRoleConstant;
+import com.cc.open.common.ConstantCommon;
 import com.cc.open.dao.CourseMapper;
 import com.cc.open.dao.UserCourseMapper;
 import com.cc.open.domain.UserCourse;
@@ -202,7 +202,7 @@ public class CourseServiceImpl implements ICourseService {
 			result.setMessage("请登录");
 			return result;
 		}
-		if(!UserRoleConstant.SUPADMIN.equals(userSession.getUserType()) && !UserRoleConstant.ADMIN.equals(userSession.getUserType())) {
+		if(!ConstantCommon.SUPADMIN.equals(userSession.getUserType()) && !ConstantCommon.ADMIN.equals(userSession.getUserType())) {
 			result.setMessage("当前登录用户权限不足");
 			return result;
 		}

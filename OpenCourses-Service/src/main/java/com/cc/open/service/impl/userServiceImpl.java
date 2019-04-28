@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cc.open.common.SessionCommon;
-import com.cc.open.common.UserRoleConstant;
+import com.cc.open.common.ConstantCommon;
 import com.cc.open.dao.UserInfoMapper;
 import com.cc.open.domain.UserInfoExample;
 import com.cc.open.domain.UserInfoExample.Criteria;
@@ -55,7 +55,7 @@ public class userServiceImpl implements IUserService{
 		}
 		if(AESUtil.decrypt(accontInfo.getSecretPassword()).equals(userVO.getUserPassword())) {
 			logger.info("########  Login successful");
-			request.getSession().setAttribute("logingUser", accontInfo);
+			request.getSession().setAttribute(ConstantCommon.USER, accontInfo);
 			logger.info(request.getSession().getId());
 			userVO.setLastLogin(new Date());
 			userVO.setUserPassword(null);
@@ -89,7 +89,7 @@ public class userServiceImpl implements IUserService{
 		userVO.setUserPassword(AESUtil.encrypt(userVO.getUserPassword()));
 		userVO.setUserEmail(AESUtil.encrypt(userVO.getUserEmail()));
 		userVO.setUserTel(AESUtil.encrypt(userVO.getUserTel()));
-		userVO.setUserType(UserRoleConstant.TEACHER);
+		userVO.setUserType(ConstantCommon.TEACHER);
 		userVO.setCreateTime(new Date());
 		userVO.setUpdateTime(new Date());
 		userVO.setIsEnable("1");
@@ -214,18 +214,19 @@ public class userServiceImpl implements IUserService{
 			result.setMessage("请登录");
 			return result;
 		}
-		if(!UserRoleConstant.SUPADMIN.equals(userSession.getUserType())) {
-			result.setMessage("当前登录用户权限不足");
-			return result;
-		}
-		logger.info("########  Update user");
 		//用户名是否已存在
 		UserVO user = userInfoDao.findAccountByAccount(userVO.getUserAccount());
-		if(user == null) {
+		if (user == null) {
 			logger.info("########  Username is not exists");
 			result.setMessage("用户名不存在");
 			return result;
 		}
+		if(!(ConstantCommon.SUPADMIN.equals(userSession.getUserType()) || user.getUserType().equals(userSession.getUserType()))) {
+			result.setMessage("当前登录用户权限不足");
+			return result;
+		}
+		logger.info("########  Update user");
+		
 		userVO.setLastLogin(null);
 		userVO.setUserEmail(AESUtil.encrypt(userVO.getUserEmail()));
 		userVO.setUserTel(AESUtil.encrypt(userVO.getUserTel()));
@@ -287,7 +288,7 @@ public class userServiceImpl implements IUserService{
 			result.setMessage("请登录");
 			return result;
 		}
-		if(!UserRoleConstant.SUPADMIN.equals(user.getUserType())) {
+		if(!ConstantCommon.SUPADMIN.equals(user.getUserType())) {
 			result.setMessage("当前登录用户权限不足");
 			return result;
 		}
@@ -308,6 +309,90 @@ public class userServiceImpl implements IUserService{
 		result.setSuccess(true);
 		result.setMessage("重置密码成功");
 		result.setData(password);
+		return result;
+	}
+
+	@Override
+	public ResponVO<UserVO> getUserInfo() {
+		ResponVO<UserVO> result = new ResponVO<>();
+		result.setSuccess(false);
+		UserVO nowUser = SessionCommon.checkUser(request);
+		if(nowUser == null) {
+			logger.info("########  No user login");
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		UserVO user = userInfoDao.findAccountById(nowUser.getUserId());
+		if(user != null) {
+			logger.info("########  Find account successful");
+			if(StringUtils.isNotEmpty(user.getUserEmail())) {
+				user.setUserEmail(AESUtil.decrypt(user.getUserEmail()));
+			}
+			if(StringUtils.isNotEmpty(user.getUserTel())) {
+				user.setUserTel(AESUtil.decrypt(user.getUserTel()));
+			}
+			result.setCode("200");
+			result.setSuccess(true);
+			result.setMessage("Find account successful");
+			result.setData(user);
+			return result;
+		}
+		logger.info("########  User is not exist");
+		result.setCode("500");
+		return result;
+	}
+
+	@Override
+	public ResponVO<String> updatePassword(UserVO userVO) {
+		ResponVO<String> result = new ResponVO<>();
+		result.setSuccess(false);
+		UserVO userSession = SessionCommon.checkUser(request);
+		if(userSession == null) {
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		//用户名是否已存在
+		UserVO user = userInfoDao.findAccountByAccount(userVO.getUserAccount());
+		if (user == null) {
+			logger.info("########  Username is not exists");
+			result.setMessage("用户名不存在");
+			return result;
+		}
+		if(!(ConstantCommon.SUPADMIN.equals(userSession.getUserType()) || user.getUserType().equals(userSession.getUserType()))) {
+			result.setMessage("当前登录用户权限不足");
+			return result;
+		}
+		String oldpwd = AESUtil.decrypt(userSession.getSecretPassword());
+		if(!(userVO.getUserPassword().equals(oldpwd))) {
+			result.setCode("201");
+			result.setMessage("旧密码错误");
+			return result;
+		}
+		if(userVO.getNewPassword().isEmpty()) {
+			result.setCode("500");
+			result.setMessage("新密码为空");
+			return result;
+		}
+		logger.info("########  Update user");
+		
+		userVO.setLastLogin(null);
+		String pwd = userVO.getNewPassword();
+		userVO.setUserPassword(AESUtil.encrypt(pwd));
+		userVO.setUpdateTime(new Date());
+		int flag = userInfoDao.updateUser(userVO);
+		if(flag>0) {
+			result.setCode("200");
+			result.setMessage("修改成功");
+			result.setSuccess(true);
+			request.getSession().invalidate();
+			logger.info("########  Update user successful");
+		}else {
+			result.setCode("500");
+			result.setMessage("修改失败");
+			logger.info("########  Update user fail");
+		}
 		return result;
 	}
 

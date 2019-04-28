@@ -103,10 +103,20 @@ public class UserController {
 		return userService.updateUser(userVO);
 	}
 	
+	@RequestMapping(value = "/update/password", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<String> updatePassword(@RequestBody UserVO userVO){
+		return userService.updatePassword(userVO);
+	}
+	
 	
 	@RequestMapping(value = "/rest_password", method = RequestMethod.POST, produces = "application/json")
 	public ResponVO<String> restPssword(@RequestBody String userId){
 		return userService.restPssword(userId);
+	}
+	
+	@RequestMapping(value = "/get/info", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<UserVO> getUserInfo(){
+		return userService.getUserInfo();
 	}
 
 }

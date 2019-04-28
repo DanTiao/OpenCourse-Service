@@ -17,7 +17,8 @@ public class SessionCommon {
 	
 	public static UserVO checkUser(HttpServletRequest re) {
 		try {
-			return (UserVO) re.getSession().getAttribute("logingUser");
+			logger.info(re.getSession().getId());
+			return (UserVO) re.getSession().getAttribute(ConstantCommon.USER);
 		}catch(Exception e){
 			logger.error("check loging user error:"+e);
 		}

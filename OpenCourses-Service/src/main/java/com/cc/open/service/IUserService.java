@@ -56,4 +56,8 @@ public interface IUserService {
 
 	ResponVO<String> restPssword(String userId);
 
+	ResponVO<UserVO> getUserInfo();
+
+	ResponVO<String> updatePassword(UserVO userVO);
+
 }

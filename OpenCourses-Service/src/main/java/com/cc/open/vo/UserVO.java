@@ -16,6 +16,7 @@ public class UserVO implements Serializable {
 	private String userPassword;
 	@JsonIgnore
 	private String secretPassword;
+	private String newPassword;
 	private String userEmail;
 	private String userTel;
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -136,6 +137,14 @@ public class UserVO implements Serializable {
 
 	public void setIsEnable(String isEnable) {
 		this.isEnable = isEnable;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 
 }
