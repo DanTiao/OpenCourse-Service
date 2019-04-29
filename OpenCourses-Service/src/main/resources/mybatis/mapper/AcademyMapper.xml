@@ -201,5 +201,85 @@
       academy_name AS academyName,
       is_enable AS isEnable
     FROM t_academy
+    WHERE is_enable = #{isEnable,jdbcType=VARCHAR}
   </select>
+  
+  <update id="updateAcademyByNum">
+    update t_academy
+    <set>
+      <if test="academyVO.academyName != null">
+        academy_name = #{academyVO.academyName,jdbcType=VARCHAR},
+      </if>
+      <if test="academyVO.isEnable != null">
+        is_enable = #{academyVO.isEnable,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where 1=1
+    <if test="academyVO.academyId != null">
+    	and academy_id = #{academyVO.academyId,jdbcType=VARCHAR}
+    </if> 
+    <if test="academyVO.academyNum != null">
+    	and academy_num = #{academyVO.academyNum,jdbcType=VARCHAR}
+    </if>  
+  </update>
+  
+  <select id="findAcademyById" resultType="com.cc.open.vo.AcademyVO">
+  	SELECT
+  	  academy_id AS  academyId,
+  	  academy_num AS academyNum,
+      academy_name AS academyName,
+      is_enable AS isEnable
+    FROM t_academy
+    WHERE academy_id = #{academyId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findAcademyByName" resultType="com.cc.open.vo.AcademyVO">
+  	SELECT
+  	  academy_id AS  academyId,
+  	  academy_num AS academyNum,
+      academy_name AS academyName,
+      is_enable AS isEnable
+    FROM t_academy
+    WHERE academy_name = #{academy.academyName,jdbcType=VARCHAR}
+    <if test="academy.isEnable != null">
+    AND 
+    is_enable = #{academy.isEnable,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <insert id="createAcademy">
+  	insert into t_academy (academy_id, academy_num, academy_name, 
+      is_enable)
+    values (#{academyVO.academyId,jdbcType=VARCHAR}, #{academyVO.academyNum,jdbcType=VARCHAR}, #{academyVO.academyName,jdbcType=VARCHAR}, 
+      #{academyVO.isEnable,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="deleteLogically" parameterType="java.util.List">
+  	update t_academy 
+    set  is_enable = '0'
+    where academy_id in
+    <foreach collection="academyIds" index="index" item="item" 
+        separator="," open="(" close=")">
+        #{item,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  
+  <update id="restLogically" parameterType="java.util.List">
+  	update t_academy 
+    set  is_enable = '1'
+    where academy_id in
+    <foreach collection="academyIds" index="index" item="item" 
+        separator="," open="(" close=")">
+        #{item,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  
+  <delete id="deletePhy"  parameterType="java.util.List">
+  	DELETE FROM t_academy
+  	WHERE academy_id IN
+  	<foreach collection="list" index="index" item="item" 
+        separator="," open="(" close=")">
+        #{item,jdbcType=BIGINT}
+    </foreach>
+  </delete>
 </mapper>

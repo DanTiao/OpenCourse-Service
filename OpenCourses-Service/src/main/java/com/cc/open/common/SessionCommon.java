@@ -24,4 +24,36 @@ public class SessionCommon {
 		}
 		return null;
 	}
+	
+	public static boolean isLogin(HttpServletRequest re) {
+		try {
+			logger.info(re.getSession().getId());
+			return re.getSession().getAttribute(ConstantCommon.USER) != null;
+		}catch(Exception e){
+			logger.error("check loging user error:"+e);
+		}
+		return false;
+	}
+	
+	public static boolean isAdmin(HttpServletRequest re) {
+		if(isLogin(re)) {
+			UserVO user = checkUser(re);
+			String type = user.getUserType();
+			if(ConstantCommon.ADMIN.equals(type)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isSupAdmin(HttpServletRequest re) {
+		if(isLogin(re)) {
+			UserVO user = checkUser(re);
+			String type = user.getUserType();
+			if(ConstantCommon.SUPADMIN.equals(type)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

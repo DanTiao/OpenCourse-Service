@@ -3,6 +3,8 @@ package com.cc.open.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Teacher implements Serializable {
     private String teacherUuid;
 
@@ -10,6 +12,7 @@ public class Teacher implements Serializable {
 
     private String teacherSex;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date teacherBirthday;
 
     private String teacherEducation;

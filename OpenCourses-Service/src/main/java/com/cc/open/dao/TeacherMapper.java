@@ -34,5 +34,5 @@ public interface TeacherMapper {
 
 	void updateTeacherInfoByUserId(Teacher teacher);
 
-	void createTeacherInfo(UserVO data);
+	void createTeacherInfo(@Param("data") UserVO data);
 }

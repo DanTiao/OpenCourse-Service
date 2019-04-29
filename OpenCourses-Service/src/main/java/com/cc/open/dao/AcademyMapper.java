@@ -30,5 +30,19 @@ public interface AcademyMapper {
 
     int updateByPrimaryKey(Academy record);
 
-	List<AcademyVO> findAllAcademy();
+	List<AcademyVO> findAllAcademy(@Param("isEnable") String isEnable);
+
+	void updateAcademyByNum(@Param("academyVO") AcademyVO academyVO);
+
+	AcademyVO findAcademyById(@Param("academyId") String academyId);
+
+	void deleteLogically(@Param("academyIds") List<String> academyIds);
+	
+	void restLogically(@Param("academyIds") List<String> academyIds);
+
+	AcademyVO findAcademyByName(@Param("academy") AcademyVO academy);
+
+	int createAcademy(@Param("academyVO") AcademyVO academyVO);
+
+	void deletePhy(List<String> academyIds);
 }
