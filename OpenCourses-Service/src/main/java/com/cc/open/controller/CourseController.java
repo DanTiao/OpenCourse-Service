@@ -44,7 +44,7 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value = "/findAll/{pageNum}/{pageSize}", method = RequestMethod.GET, produces = "application/json")
-	public ResponVO<PageInfo> findAllAcademy(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize, @RequestParam("isEnable") String isEnable){
+	public ResponVO<PageInfo> findAllCourses(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize, @RequestParam("isEnable") String isEnable){
 		ResponVO<PageInfo> result = new ResponVO<>();
 		PageHelper.startPage(pageNum, pageSize);
 		logger.info("########  Paging query");
@@ -54,6 +54,11 @@ public class CourseController {
 		result.setSuccess(true);
 		result.setCode("200");
 		return result;
+	}
+	
+	@RequestMapping(value = "/findAll/personal/{pageNum}/{pageSize}", method = RequestMethod.GET, produces = "application/json")
+	public ResponVO<PageInfo> findAllPersonalCourse(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize, @RequestParam("isEnable") String isEnable){
+		return courseService.findAllPersonalCourse(pageNum,pageSize,isEnable);
 	}
 	
 	/**

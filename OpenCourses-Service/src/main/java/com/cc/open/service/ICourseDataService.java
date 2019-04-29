@@ -19,4 +19,6 @@ public interface ICourseDataService {
 
 	ResponVO<String> deleteCourseDataUrl(CourseDataVO courseDataVO);
 
+	ResponVO<CourseDataVO> getCourseDetails(String courseId);
+
 }

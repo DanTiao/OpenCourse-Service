@@ -22,5 +22,7 @@ public interface ICourseService {
 
 	ResponVO<String> updateCourse(CourseVO courseVO);
 
+	ResponVO<PageInfo> findAllPersonalCourse(int pageNum, int pageSize, String isEnable);
+
 
 }

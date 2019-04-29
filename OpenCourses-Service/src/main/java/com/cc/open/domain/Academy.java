@@ -1,6 +1,8 @@
 package com.cc.open.domain;
 
-public class Academy {
+import java.io.Serializable;
+
+public class Academy implements Serializable{
     private String academyId;
 
     private String academyNum;

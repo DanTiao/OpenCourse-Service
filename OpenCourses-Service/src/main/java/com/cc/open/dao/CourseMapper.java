@@ -45,4 +45,6 @@ public interface CourseMapper {
 	void deleteCourseByIds(List<String> courseIds);
 
 	int updateCourse(CourseVO courseVO);
+
+	List<CourseVO> findAllPersonalCourse(@Param("course") CourseVO course);
 }

@@ -54,9 +54,10 @@ public interface UserInfoMapper {
 
 	/**
 	 * 分页查询
+	 * @param userType 
 	 * @return
 	 */
-	List<UserVO> findAllUser(@Param("isEnable") String isEnable);
+	List<UserVO> findAllUser(@Param("isEnable") String isEnable, @Param("userType") String userType);
 
 	/**
 	 * 根据id查用户信息

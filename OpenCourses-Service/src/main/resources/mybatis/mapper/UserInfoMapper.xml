@@ -358,7 +358,7 @@
       create_time AS createTime,
       is_valid AS isValid
     FROM t_user_info
-    WHERE is_enable = #{isEnable,jdbcType=VARCHAR}
+    WHERE is_enable = #{isEnable,jdbcType=VARCHAR} AND user_type = #{userType,jdbcType=VARCHAR}
     ORDER BY create_time
   </select>
   

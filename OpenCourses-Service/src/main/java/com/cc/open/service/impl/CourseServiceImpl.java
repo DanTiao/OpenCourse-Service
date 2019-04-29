@@ -27,6 +27,7 @@ import com.cc.open.vo.CourseVO;
 import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserCourseVO;
 import com.cc.open.vo.UserVO;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Service
@@ -225,6 +226,28 @@ public class CourseServiceImpl implements ICourseService {
 			result.setMessage("修改失败");
 			logger.info("########  Update course fail");
 		}
+		return result;
+	}
+
+	@Override
+	public ResponVO<PageInfo> findAllPersonalCourse(int pageNum, int pageSize,String isEnable) {
+		ResponVO<PageInfo> result = new ResponVO<>();
+		PageHelper.startPage(pageNum, pageSize);
+		logger.info("########  Paging query");
+		UserVO user = SessionCommon.checkUser(request);
+		if(user == null) {
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		CourseVO course = new CourseVO();
+		course.setUserId(user.getUserId());
+		course.setIsEnable(isEnable);
+		List<CourseVO> listCourses = courseDao.findAllPersonalCourse(course);
+		PageInfo pageInfo = new PageInfo(listCourses);
+		result.setData(pageInfo);
+		result.setSuccess(true);
+		result.setCode("200");
 		return result;
 	}
 

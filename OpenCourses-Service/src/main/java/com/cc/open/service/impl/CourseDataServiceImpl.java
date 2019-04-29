@@ -171,4 +171,12 @@ public class CourseDataServiceImpl implements ICourseDataService {
 		return result;
 	}
 
+	@Override
+	public ResponVO<CourseDataVO> getCourseDetails(String courseId) {
+		ResponVO<CourseDataVO> result = new ResponVO<>();
+		result.setSuccess(false);
+		CourseDataVO courseDataVO = courseDataDao.getCourseDetails(courseId);
+		return result;
+	}
+
 }

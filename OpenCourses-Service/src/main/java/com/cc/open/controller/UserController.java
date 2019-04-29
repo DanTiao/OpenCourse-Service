@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cc.open.common.ConstantCommon;
 import com.cc.open.dao.UserInfoMapper;
 import com.cc.open.service.IUserService;
 import com.cc.open.vo.ResponVO;
@@ -40,17 +41,35 @@ public class UserController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/add/user", method = RequestMethod.POST, produces = "application/json")
 	public ResponVO<UserVO> createUser(@RequestBody UserVO userVO){
 		return userService.createUser(userVO);
 	}
 	
-	@RequestMapping(value = "/findAll/{pageNum}/{pageSize}", method = RequestMethod.GET, produces = "application/json")
-	public ResponVO<PageInfo> findAllUser(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize, @RequestParam("isEnable") String isEnable){
+	@RequestMapping(value = "/add/admin", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<UserVO> createAdmin(@RequestBody UserVO userVO){
+		return userService.createAdmin(userVO);
+	}
+	
+	@RequestMapping(value = "/findAll/teachers/{pageNum}/{pageSize}", method = RequestMethod.GET, produces = "application/json")
+	public ResponVO<PageInfo> findAllTeachers(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize, @RequestParam("isEnable") String isEnable){
 		ResponVO<PageInfo> result = new ResponVO<>();
 		PageHelper.startPage(pageNum, pageSize);
 		logger.info("########  Paging query");
-		List<UserVO> listUser = userInfoDao.findAllUser(isEnable);
+		List<UserVO> listUser = userInfoDao.findAllUser(isEnable,ConstantCommon.TEACHER);
+		PageInfo pageInfo = new PageInfo(listUser);
+		result.setData(pageInfo);
+		result.setSuccess(true);
+		result.setCode("200");
+		return result;
+	}
+	
+	@RequestMapping(value = "/findAll/admin/{pageNum}/{pageSize}", method = RequestMethod.GET, produces = "application/json")
+	public ResponVO<PageInfo> findAllAdmins(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize, @RequestParam("isEnable") String isEnable){
+		ResponVO<PageInfo> result = new ResponVO<>();
+		PageHelper.startPage(pageNum, pageSize);
+		logger.info("########  Paging query");
+		List<UserVO> listUser = userInfoDao.findAllUser(isEnable,ConstantCommon.ADMIN);
 		PageInfo pageInfo = new PageInfo(listUser);
 		result.setData(pageInfo);
 		result.setSuccess(true);

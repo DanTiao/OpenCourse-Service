@@ -3,18 +3,15 @@
 <mapper namespace="com.cc.open.dao.TeacherMapper">
   <resultMap id="BaseResultMap" type="com.cc.open.domain.Teacher">
     <id column="teacher_uuid" jdbcType="VARCHAR" property="teacherUuid" />
-    <result column="teacher_account" jdbcType="VARCHAR" property="teacherAccount" />
-    <result column="teacher_password" jdbcType="VARCHAR" property="teacherPassword" />
-    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="teacher_sex" jdbcType="VARCHAR" property="teacherSex" />
-    <result column="teacher_birthday" jdbcType="VARCHAR" property="teacherBirthday" />
+    <result column="teacher_birthday" jdbcType="TIMESTAMP" property="teacherBirthday" />
     <result column="teacher_education" jdbcType="VARCHAR" property="teacherEducation" />
     <result column="teacher_degree" jdbcType="VARCHAR" property="teacherDegree" />
     <result column="teacher_major" jdbcType="VARCHAR" property="teacherMajor" />
     <result column="teacher_title" jdbcType="VARCHAR" property="teacherTitle" />
-    <result column="teacher_mail" jdbcType="VARCHAR" property="teacherMail" />
-    <result column="teacher_tel" jdbcType="VARCHAR" property="teacherTel" />
-    <result column="academy_name" jdbcType="VARCHAR" property="academyName" />
+    <result column="academy_id" jdbcType="VARCHAR" property="academyId" />
+    <result column="teacher_introduction" jdbcType="VARCHAR" property="teacherIntroduction" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,9 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    teacher_uuid, teacher_account, teacher_password, teacher_name, teacher_sex, teacher_birthday, 
-    teacher_education, teacher_degree, teacher_major, teacher_title, teacher_mail, teacher_tel, 
-    academy_name
+    teacher_uuid, user_id, teacher_sex, teacher_birthday, teacher_education, teacher_degree, 
+    teacher_major, teacher_title, academy_id, teacher_introduction
   </sql>
   <select id="selectByExample" parameterType="com.cc.open.domain.TeacherExample" resultMap="BaseResultMap">
     select
@@ -110,16 +106,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cc.open.domain.Teacher">
-    insert into t_teacher (teacher_uuid, teacher_account, teacher_password, 
-      teacher_name, teacher_sex, teacher_birthday, 
-      teacher_education, teacher_degree, teacher_major, 
-      teacher_title, teacher_mail, teacher_tel, 
-      academy_name)
-    values (#{teacherUuid,jdbcType=VARCHAR}, #{teacherAccount,jdbcType=VARCHAR}, #{teacherPassword,jdbcType=VARCHAR}, 
-      #{teacherName,jdbcType=VARCHAR}, #{teacherSex,jdbcType=VARCHAR}, #{teacherBirthday,jdbcType=VARCHAR}, 
-      #{teacherEducation,jdbcType=VARCHAR}, #{teacherDegree,jdbcType=VARCHAR}, #{teacherMajor,jdbcType=VARCHAR}, 
-      #{teacherTitle,jdbcType=VARCHAR}, #{teacherMail,jdbcType=VARCHAR}, #{teacherTel,jdbcType=VARCHAR}, 
-      #{academyName,jdbcType=VARCHAR})
+    insert into t_teacher (teacher_uuid, user_id, teacher_sex, 
+      teacher_birthday, teacher_education, teacher_degree, 
+      teacher_major, teacher_title, academy_id, 
+      teacher_introduction)
+    values (#{teacherUuid,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{teacherSex,jdbcType=VARCHAR}, 
+      #{teacherBirthday,jdbcType=TIMESTAMP}, #{teacherEducation,jdbcType=VARCHAR}, #{teacherDegree,jdbcType=VARCHAR}, 
+      #{teacherMajor,jdbcType=VARCHAR}, #{teacherTitle,jdbcType=VARCHAR}, #{academyId,jdbcType=VARCHAR}, 
+      #{teacherIntroduction,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.cc.open.domain.Teacher">
     insert into t_teacher
@@ -127,14 +121,8 @@
       <if test="teacherUuid != null">
         teacher_uuid,
       </if>
-      <if test="teacherAccount != null">
-        teacher_account,
-      </if>
-      <if test="teacherPassword != null">
-        teacher_password,
-      </if>
-      <if test="teacherName != null">
-        teacher_name,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="teacherSex != null">
         teacher_sex,
@@ -154,34 +142,25 @@
       <if test="teacherTitle != null">
         teacher_title,
       </if>
-      <if test="teacherMail != null">
-        teacher_mail,
+      <if test="academyId != null">
+        academy_id,
       </if>
-      <if test="teacherTel != null">
-        teacher_tel,
-      </if>
-      <if test="academyName != null">
-        academy_name,
+      <if test="teacherIntroduction != null">
+        teacher_introduction,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="teacherUuid != null">
         #{teacherUuid,jdbcType=VARCHAR},
       </if>
-      <if test="teacherAccount != null">
-        #{teacherAccount,jdbcType=VARCHAR},
-      </if>
-      <if test="teacherPassword != null">
-        #{teacherPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="teacherName != null">
-        #{teacherName,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
       </if>
       <if test="teacherSex != null">
         #{teacherSex,jdbcType=VARCHAR},
       </if>
       <if test="teacherBirthday != null">
-        #{teacherBirthday,jdbcType=VARCHAR},
+        #{teacherBirthday,jdbcType=TIMESTAMP},
       </if>
       <if test="teacherEducation != null">
         #{teacherEducation,jdbcType=VARCHAR},
@@ -195,14 +174,11 @@
       <if test="teacherTitle != null">
         #{teacherTitle,jdbcType=VARCHAR},
       </if>
-      <if test="teacherMail != null">
-        #{teacherMail,jdbcType=VARCHAR},
+      <if test="academyId != null">
+        #{academyId,jdbcType=VARCHAR},
       </if>
-      <if test="teacherTel != null">
-        #{teacherTel,jdbcType=VARCHAR},
-      </if>
-      <if test="academyName != null">
-        #{academyName,jdbcType=VARCHAR},
+      <if test="teacherIntroduction != null">
+        #{teacherIntroduction,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -218,20 +194,14 @@
       <if test="record.teacherUuid != null">
         teacher_uuid = #{record.teacherUuid,jdbcType=VARCHAR},
       </if>
-      <if test="record.teacherAccount != null">
-        teacher_account = #{record.teacherAccount,jdbcType=VARCHAR},
-      </if>
-      <if test="record.teacherPassword != null">
-        teacher_password = #{record.teacherPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="record.teacherName != null">
-        teacher_name = #{record.teacherName,jdbcType=VARCHAR},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
       </if>
       <if test="record.teacherSex != null">
         teacher_sex = #{record.teacherSex,jdbcType=VARCHAR},
       </if>
       <if test="record.teacherBirthday != null">
-        teacher_birthday = #{record.teacherBirthday,jdbcType=VARCHAR},
+        teacher_birthday = #{record.teacherBirthday,jdbcType=TIMESTAMP},
       </if>
       <if test="record.teacherEducation != null">
         teacher_education = #{record.teacherEducation,jdbcType=VARCHAR},
@@ -245,14 +215,11 @@
       <if test="record.teacherTitle != null">
         teacher_title = #{record.teacherTitle,jdbcType=VARCHAR},
       </if>
-      <if test="record.teacherMail != null">
-        teacher_mail = #{record.teacherMail,jdbcType=VARCHAR},
+      <if test="record.academyId != null">
+        academy_id = #{record.academyId,jdbcType=VARCHAR},
       </if>
-      <if test="record.teacherTel != null">
-        teacher_tel = #{record.teacherTel,jdbcType=VARCHAR},
-      </if>
-      <if test="record.academyName != null">
-        academy_name = #{record.academyName,jdbcType=VARCHAR},
+      <if test="record.teacherIntroduction != null">
+        teacher_introduction = #{record.teacherIntroduction,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -262,18 +229,15 @@
   <update id="updateByExample" parameterType="map">
     update t_teacher
     set teacher_uuid = #{record.teacherUuid,jdbcType=VARCHAR},
-      teacher_account = #{record.teacherAccount,jdbcType=VARCHAR},
-      teacher_password = #{record.teacherPassword,jdbcType=VARCHAR},
-      teacher_name = #{record.teacherName,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
       teacher_sex = #{record.teacherSex,jdbcType=VARCHAR},
-      teacher_birthday = #{record.teacherBirthday,jdbcType=VARCHAR},
+      teacher_birthday = #{record.teacherBirthday,jdbcType=TIMESTAMP},
       teacher_education = #{record.teacherEducation,jdbcType=VARCHAR},
       teacher_degree = #{record.teacherDegree,jdbcType=VARCHAR},
       teacher_major = #{record.teacherMajor,jdbcType=VARCHAR},
       teacher_title = #{record.teacherTitle,jdbcType=VARCHAR},
-      teacher_mail = #{record.teacherMail,jdbcType=VARCHAR},
-      teacher_tel = #{record.teacherTel,jdbcType=VARCHAR},
-      academy_name = #{record.academyName,jdbcType=VARCHAR}
+      academy_id = #{record.academyId,jdbcType=VARCHAR},
+      teacher_introduction = #{record.teacherIntroduction,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -281,20 +245,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.cc.open.domain.Teacher">
     update t_teacher
     <set>
-      <if test="teacherAccount != null">
-        teacher_account = #{teacherAccount,jdbcType=VARCHAR},
-      </if>
-      <if test="teacherPassword != null">
-        teacher_password = #{teacherPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="teacherName != null">
-        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
       </if>
       <if test="teacherSex != null">
         teacher_sex = #{teacherSex,jdbcType=VARCHAR},
       </if>
       <if test="teacherBirthday != null">
-        teacher_birthday = #{teacherBirthday,jdbcType=VARCHAR},
+        teacher_birthday = #{teacherBirthday,jdbcType=TIMESTAMP},
       </if>
       <if test="teacherEducation != null">
         teacher_education = #{teacherEducation,jdbcType=VARCHAR},
@@ -308,32 +266,72 @@
       <if test="teacherTitle != null">
         teacher_title = #{teacherTitle,jdbcType=VARCHAR},
       </if>
-      <if test="teacherMail != null">
-        teacher_mail = #{teacherMail,jdbcType=VARCHAR},
+      <if test="academyId != null">
+        academy_id = #{academyId,jdbcType=VARCHAR},
       </if>
-      <if test="teacherTel != null">
-        teacher_tel = #{teacherTel,jdbcType=VARCHAR},
-      </if>
-      <if test="academyName != null">
-        academy_name = #{academyName,jdbcType=VARCHAR},
+      <if test="teacherIntroduction != null">
+        teacher_introduction = #{teacherIntroduction,jdbcType=VARCHAR},
       </if>
     </set>
     where teacher_uuid = #{teacherUuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cc.open.domain.Teacher">
     update t_teacher
-    set teacher_account = #{teacherAccount,jdbcType=VARCHAR},
-      teacher_password = #{teacherPassword,jdbcType=VARCHAR},
-      teacher_name = #{teacherName,jdbcType=VARCHAR},
+    set user_id = #{userId,jdbcType=VARCHAR},
       teacher_sex = #{teacherSex,jdbcType=VARCHAR},
-      teacher_birthday = #{teacherBirthday,jdbcType=VARCHAR},
+      teacher_birthday = #{teacherBirthday,jdbcType=TIMESTAMP},
       teacher_education = #{teacherEducation,jdbcType=VARCHAR},
       teacher_degree = #{teacherDegree,jdbcType=VARCHAR},
       teacher_major = #{teacherMajor,jdbcType=VARCHAR},
       teacher_title = #{teacherTitle,jdbcType=VARCHAR},
-      teacher_mail = #{teacherMail,jdbcType=VARCHAR},
-      teacher_tel = #{teacherTel,jdbcType=VARCHAR},
-      academy_name = #{academyName,jdbcType=VARCHAR}
+      academy_id = #{academyId,jdbcType=VARCHAR},
+      teacher_introduction = #{teacherIntroduction,jdbcType=VARCHAR}
     where teacher_uuid = #{teacherUuid,jdbcType=VARCHAR}
+  </update>
+  <insert id="createTeacherInfo" parameterType="com.cc.open.vo.UserVO">
+  	insert into t_teacher
+  	set teacher_uuid = UUID(),
+  	user_id = #{data.userId,jdbcType=VARCHAR}
+  </insert>
+  
+  <select id="getTeacherInfoByUserId" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_teacher
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateTeacherInfoByUserId" parameterType="com.cc.open.domain.Teacher">
+  	update t_teacher
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherSex != null">
+        teacher_sex = #{teacherSex,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherBirthday != null">
+        teacher_birthday = #{teacherBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teacherEducation != null">
+        teacher_education = #{teacherEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherDegree != null">
+        teacher_degree = #{teacherDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherMajor != null">
+        teacher_major = #{teacherMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherTitle != null">
+        teacher_title = #{teacherTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="academyId != null">
+        academy_id = #{academyId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherIntroduction != null">
+        teacher_introduction = #{teacherIntroduction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -60,4 +60,6 @@ public interface IUserService {
 
 	ResponVO<String> updatePassword(UserVO userVO);
 
+	ResponVO<UserVO> createAdmin(UserVO userVO);
+
 }

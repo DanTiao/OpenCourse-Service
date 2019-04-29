@@ -14,14 +14,14 @@
     <!-- <table tableName="t_user_info" domainObjectName="UserInfo"></table> 
     <table tableName="t_course_info" domainObjectName="Course"></table>
     <table tableName="t_teaching_info" domainObjectName="TeachingInfo"></table>
-    <table tableName="t_teaching_reform" domainObjectName="TeachingReform"></table>
+    <table tableName="t_teaching_reform" domainObjectName="TeachingReform"></table> -->
     <table tableName="t_teacher" domainObjectName="Teacher"></table>
-    <table tableName="t_student" domainObjectName="Student"></table>
+    <!-- <table tableName="t_student" domainObjectName="Student"></table>
     <table tableName="t_grade" domainObjectName="Grade"></table>
     <table tableName="t_class" domainObjectName="Class"></table>
     <table tableName="t_academy" domainObjectName="Academy"></table>
-    <table tableName="t_user_course" domainObjectName="UserCourse"></table>-->
-    <table tableName="t_data_course" domainObjectName="CourseData"></table>
+    <table tableName="t_user_course" domainObjectName="UserCourse"></table>
+    <table tableName="t_data_course" domainObjectName="CourseData"></table>-->
     
   </context>
 </generatorConfiguration>

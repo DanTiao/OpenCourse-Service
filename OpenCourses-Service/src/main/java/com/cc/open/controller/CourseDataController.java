@@ -78,4 +78,9 @@ public class CourseDataController {
 	public ResponVO<String> deleteCourseData(@RequestBody CourseDataVO courseDataVO){		
 		return courseDataService.deleteCourseDataUrl(courseDataVO);
 	}
+	
+	@RequestMapping(value = "/getDetalis/{courseId}", method = RequestMethod.GET, produces = "application/json")
+	public ResponVO<CourseDataVO> getCourseDetails(@PathVariable("courseId") String courseId){		
+		return courseDataService.getCourseDetails(courseId);
+	}
 }

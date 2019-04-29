@@ -1,17 +1,16 @@
 package com.cc.open.domain;
 
-public class Teacher {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Teacher implements Serializable {
     private String teacherUuid;
 
-    private String teacherAccount;
-
-    private String teacherPassword;
-
-    private String teacherName;
+    private String userId;
 
     private String teacherSex;
 
-    private String teacherBirthday;
+    private Date teacherBirthday;
 
     private String teacherEducation;
 
@@ -21,11 +20,9 @@ public class Teacher {
 
     private String teacherTitle;
 
-    private String teacherMail;
+    private String academyId;
 
-    private String teacherTel;
-
-    private String academyName;
+    private String teacherIntroduction;
 
     public String getTeacherUuid() {
         return teacherUuid;
@@ -35,28 +32,12 @@ public class Teacher {
         this.teacherUuid = teacherUuid;
     }
 
-    public String getTeacherAccount() {
-        return teacherAccount;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setTeacherAccount(String teacherAccount) {
-        this.teacherAccount = teacherAccount;
-    }
-
-    public String getTeacherPassword() {
-        return teacherPassword;
-    }
-
-    public void setTeacherPassword(String teacherPassword) {
-        this.teacherPassword = teacherPassword;
-    }
-
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getTeacherSex() {
@@ -67,11 +48,11 @@ public class Teacher {
         this.teacherSex = teacherSex;
     }
 
-    public String getTeacherBirthday() {
+    public Date getTeacherBirthday() {
         return teacherBirthday;
     }
 
-    public void setTeacherBirthday(String teacherBirthday) {
+    public void setTeacherBirthday(Date teacherBirthday) {
         this.teacherBirthday = teacherBirthday;
     }
 
@@ -107,27 +88,19 @@ public class Teacher {
         this.teacherTitle = teacherTitle;
     }
 
-    public String getTeacherMail() {
-        return teacherMail;
+    public String getAcademyId() {
+        return academyId;
     }
 
-    public void setTeacherMail(String teacherMail) {
-        this.teacherMail = teacherMail;
+    public void setAcademyId(String academyId) {
+        this.academyId = academyId;
     }
 
-    public String getTeacherTel() {
-        return teacherTel;
+    public String getTeacherIntroduction() {
+        return teacherIntroduction;
     }
 
-    public void setTeacherTel(String teacherTel) {
-        this.teacherTel = teacherTel;
-    }
-
-    public String getAcademyName() {
-        return academyName;
-    }
-
-    public void setAcademyName(String academyName) {
-        this.academyName = academyName;
+    public void setTeacherIntroduction(String teacherIntroduction) {
+        this.teacherIntroduction = teacherIntroduction;
     }
 }

@@ -22,6 +22,7 @@ import com.cc.open.common.ConstantCommon;
 import com.cc.open.dao.UserInfoMapper;
 import com.cc.open.domain.UserInfoExample;
 import com.cc.open.domain.UserInfoExample.Criteria;
+import com.cc.open.service.ITeacherService;
 import com.cc.open.service.IUserService;
 import com.cc.open.utils.AESUtil;
 import com.cc.open.vo.ResponVO;
@@ -38,6 +39,9 @@ public class userServiceImpl implements IUserService{
 	
 	@Autowired
 	private HttpServletRequest request;
+	
+	@Autowired
+	private ITeacherService teacherService;
 
 	@Override
 	public ResponVO<UserVO> userLogin(UserVO userVO) {
@@ -84,12 +88,36 @@ public class userServiceImpl implements IUserService{
 			result.setMessage("用户名已存在");
 			return result;
 		}
+		UserVO sessionUser = SessionCommon.checkUser(request);
+		if(sessionUser == null) {
+			logger.info("########  Username no login");
+			result.setCode("401");
+			result.setMessage("请登录 ");
+			return result;
+		}
+		if(!(ConstantCommon.ADMIN.equals(sessionUser.getUserType()) || ConstantCommon.SUPADMIN.equals(sessionUser.getUserType()))) {
+			logger.info("########  Username no Permission");
+			result.setCode("500");
+			result.setMessage("权限不足");
+			return result;
+		}
+		result = createUser(ConstantCommon.TEACHER, userVO);
+		if(result.isSuccess()) {
+			teacherService.createTeacherInfo(userVO);
+		}
+		return result;
+	}
+	
+	private ResponVO<UserVO> createUser(String userType, UserVO userVO) {
+		ResponVO<UserVO> result = new ResponVO<UserVO>();
+		result.setSuccess(false);
+		result.setData(userVO);
 		String id = UUID.randomUUID().toString();
 		userVO.setUserId(id);
 		userVO.setUserPassword(AESUtil.encrypt(userVO.getUserPassword()));
 		userVO.setUserEmail(AESUtil.encrypt(userVO.getUserEmail()));
 		userVO.setUserTel(AESUtil.encrypt(userVO.getUserTel()));
-		userVO.setUserType(ConstantCommon.TEACHER);
+		userVO.setUserType(userType);
 		userVO.setCreateTime(new Date());
 		userVO.setUpdateTime(new Date());
 		userVO.setIsEnable("1");
@@ -394,6 +422,35 @@ public class userServiceImpl implements IUserService{
 			logger.info("########  Update user fail");
 		}
 		return result;
+	}
+
+	@Override
+	public ResponVO<UserVO> createAdmin(UserVO userVO) {
+		ResponVO<UserVO> result = new ResponVO<UserVO>();
+		result.setSuccess(false);
+		result.setData(userVO);
+		logger.info("########  Create user");
+		//用户名是否已存在
+		UserVO user = userInfoDao.findAccountByAccount(userVO.getUserAccount());
+		if(user != null) {
+			logger.info("########  Username already exists");
+			result.setMessage("用户名已存在");
+			return result;
+		}
+		UserVO sessionUser = SessionCommon.checkUser(request);
+		if(sessionUser == null) {
+			logger.info("########  Username no login");
+			result.setCode("401");
+			result.setMessage("请登录 ");
+			return result;
+		}
+		if(!ConstantCommon.SUPADMIN.equals(sessionUser.getUserType())) {
+			logger.info("########  Username no Permission");
+			result.setCode("500");
+			result.setMessage("权限不足");
+			return result;
+		}
+		return createUser(ConstantCommon.ADMIN, userVO);
 	}
 
 }
