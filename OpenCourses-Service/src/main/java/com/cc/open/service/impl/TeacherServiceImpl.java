@@ -1,5 +1,7 @@
 package com.cc.open.service.impl;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import com.cc.open.dao.TeacherMapper;
 import com.cc.open.domain.Teacher;
 import com.cc.open.service.ITeacherService;
 import com.cc.open.vo.ResponVO;
+import com.cc.open.vo.TeacherVO;
 import com.cc.open.vo.UserVO;
 
 @Service
@@ -63,6 +66,21 @@ public class TeacherServiceImpl implements ITeacherService {
 		result.setCode("200");
 		result.setSuccess(true);
 		result.setMessage("修改成功");
+		return result;
+	}
+
+	@Override
+	public ResponVO<List<TeacherVO>> getTeacherData(String courseId) {
+		ResponVO<List<TeacherVO>> result = new ResponVO<>();
+		result.setSuccess(false);
+		List<TeacherVO> teachers = teacherDao.getTeacherData(courseId);
+		if(teachers != null) {
+			result.setCode("200");
+			result.setData(teachers);
+			return result;
+		}
+		result.setCode("500");
+		result.setMessage("教师信息为空");
 		return result;
 	}
 

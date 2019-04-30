@@ -38,5 +38,5 @@ public interface CourseDataMapper {
 
 	void deleteCourseDataUrl(@Param("courseDataVO") CourseDataVO courseDataVO);
 
-	CourseDataVO getCourseDetails(String courseId);
+	CourseDataVO getCourseDetails(@Param("courseId") String courseId);
 }

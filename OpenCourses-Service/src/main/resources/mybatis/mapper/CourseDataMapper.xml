@@ -269,10 +269,28 @@
   </update>
   
   <select id="findCourseDataByCourseId" resultType="com.cc.open.vo.CourseDataVO">
-  SELECT
-  	<include refid="BaseResult"></include>
-  	FROM t_data_course
-  	WHERE course_id = #{courseId,jdbcType=VARCHAR}
+	  SELECT
+		a.id AS id,
+		a.course_id AS courseId,
+		b.course_name AS courseName,
+		a.introduction,
+		a.book,
+		a.video_name AS videoName,
+		a.video_path AS videoPath,
+		a.file_name AS fileName,
+		a.file_path AS filePath,
+		b.academy_id AS academyId,
+		c.academy_name AS academyName,
+		a.create_time AS createTime,
+		a.update_time AS updateTime
+	FROM
+		t_data_course a,
+		t_course_info b,
+		t_academy c
+	WHERE
+		b.course_uuid = a.course_id
+	AND b.academy_id = c.academy_id
+	AND a.course_id = #{courseId,jdbcType=VARCHAR}
   </select>
   
   <insert id="createCourseData" parameterType="com.cc.open.vo.CourseDataVO">

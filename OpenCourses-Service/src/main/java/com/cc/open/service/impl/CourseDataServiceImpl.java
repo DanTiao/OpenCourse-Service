@@ -125,6 +125,7 @@ public class CourseDataServiceImpl implements ICourseDataService {
 			String id = UUID.randomUUID().toString();
 			courseDataVO.setId(id);		
 			courseDataVO.setCreateTime(nowDate);
+			courseDataVO.setCourseId(courseId);
 			courseDataDao.createCourseData(courseDataVO);
 			logger.info("文件路径插入成功");
 			result.setCode("200");
@@ -175,7 +176,12 @@ public class CourseDataServiceImpl implements ICourseDataService {
 	public ResponVO<CourseDataVO> getCourseDetails(String courseId) {
 		ResponVO<CourseDataVO> result = new ResponVO<>();
 		result.setSuccess(false);
-		CourseDataVO courseDataVO = courseDataDao.getCourseDetails(courseId);
+		CourseDataVO courseDataVO = courseDataDao.findCourseDataByCourseId(courseId);
+		if(courseDataVO != null) {
+			result.setCode("200");
+			result.setSuccess(true);
+			result.setData(courseDataVO);
+		}
 		return result;
 	}
 

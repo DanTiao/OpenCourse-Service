@@ -17,12 +17,14 @@ import org.springframework.stereotype.Service;
 
 import com.cc.open.common.SessionCommon;
 import com.cc.open.common.ConstantCommon;
+import com.cc.open.dao.CourseDataMapper;
 import com.cc.open.dao.CourseMapper;
 import com.cc.open.dao.UserCourseMapper;
 import com.cc.open.domain.UserCourse;
 import com.cc.open.service.ICourseService;
 import com.cc.open.service.IUserCourseService;
 import com.cc.open.utils.AESUtil;
+import com.cc.open.vo.CourseDataVO;
 import com.cc.open.vo.CourseVO;
 import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserCourseVO;
@@ -46,6 +48,10 @@ public class CourseServiceImpl implements ICourseService {
 	
 	@Autowired
 	private UserCourseMapper userCourseDao;
+	
+	@Autowired
+	private CourseDataMapper courseDataDao;
+
 
 	@Override
 	public ResponVO<CourseVO> createCourse(CourseVO courseVO) {
@@ -76,6 +82,9 @@ public class CourseServiceImpl implements ICourseService {
 		int flag = -1;
 		try {
 			flag = courseDao.createCourse(courseVO);
+			CourseDataVO courseDataVO = new CourseDataVO();
+			courseDataVO.setCourseId(courseVO.getCourseId());
+			courseDataDao.createCourseData(courseDataVO);
 		} catch (Exception e) {
 			logger.error("Creat course fail------"+e);
 			result.setMessage("创建课程失败");
@@ -208,7 +217,7 @@ public class CourseServiceImpl implements ICourseService {
 			return result;
 		}
 		logger.info("########  Update user");
-		//用户名是否已存在
+		//课程是否已存在
 		if(courseDao.findCourseByName(courseVO) == null) {
 			logger.info("########  Username is not exists");
 			result.setMessage("课程不存在");

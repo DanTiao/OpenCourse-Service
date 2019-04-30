@@ -13,6 +13,8 @@ public class CourseDataVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
     private String id;
+    
+    private String courseName;
 
     private String courseId;
 
@@ -33,6 +35,26 @@ public class CourseDataVO implements Serializable {
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
+    
+    private String academyId;
+    
+    private String academyName;
+
+	public String getAcademyId() {
+		return academyId;
+	}
+
+	public void setAcademyId(String academyId) {
+		this.academyId = academyId;
+	}
+
+	public String getAcademyName() {
+		return academyName;
+	}
+
+	public void setAcademyName(String academyName) {
+		this.academyName = academyName;
+	}
 
 	public String getId() {
 		return id;
@@ -112,6 +134,14 @@ public class CourseDataVO implements Serializable {
 
 	public void setFileName(String fileName) {
 		FileName = fileName;
+	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
     
 

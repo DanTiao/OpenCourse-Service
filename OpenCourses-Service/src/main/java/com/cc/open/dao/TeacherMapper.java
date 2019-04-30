@@ -2,6 +2,7 @@ package com.cc.open.dao;
 
 import com.cc.open.domain.Teacher;
 import com.cc.open.domain.TeacherExample;
+import com.cc.open.vo.TeacherVO;
 import com.cc.open.vo.UserVO;
 
 import java.util.List;
@@ -39,4 +40,6 @@ public interface TeacherMapper {
 	void deleteTeacherByIds(List<String> ids);
 
 	Teacher findTeacherInfoByUserId(@Param("userId") String userId);
+
+	List<TeacherVO> getTeacherData(@Param("courseId") String courseId);
 }
