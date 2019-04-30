@@ -84,7 +84,7 @@ public class userServiceImpl implements IUserService{
 	}
 
 	@Override
-	public ResponVO<UserVO> createUser(UserVO userVO) {
+	public ResponVO<UserVO> createTeacher(UserVO userVO) {
 		ResponVO<UserVO> result = new ResponVO<UserVO>();
 		result.setSuccess(false);
 		result.setData(userVO);
@@ -160,6 +160,9 @@ public class userServiceImpl implements IUserService{
 		return result;
 	}
 
+	/**
+	 * 物理批量删除
+	 */
 	@Override
 	public ResponVO<String> deleteUsers(List<String> ids) {
 		ResponVO<String> result = new ResponVO<String>();
@@ -460,7 +463,11 @@ public class userServiceImpl implements IUserService{
 			result.setMessage("权限不足");
 			return result;
 		}
-		return createUser(ConstantCommon.ADMIN, userVO);
+		result =  createUser(ConstantCommon.ADMIN, userVO);
+		if(result.isSuccess()) {
+			teacherService.createTeacherInfo(userVO);
+		}
+		return result;
 	}
 
 	@Override

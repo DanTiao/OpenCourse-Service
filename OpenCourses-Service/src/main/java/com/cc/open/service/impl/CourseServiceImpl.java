@@ -84,6 +84,8 @@ public class CourseServiceImpl implements ICourseService {
 			flag = courseDao.createCourse(courseVO);
 			CourseDataVO courseDataVO = new CourseDataVO();
 			courseDataVO.setCourseId(courseVO.getCourseId());
+			String dataId = UUID.randomUUID().toString();
+			courseDataVO.setId(dataId);
 			courseDataDao.createCourseData(courseDataVO);
 		} catch (Exception e) {
 			logger.error("Creat course fail------"+e);

@@ -360,17 +360,17 @@
 		a.teacher_major AS major,
 		a.teacher_title AS title,
 		a.academy_id AS academyId,
-		b.academy_name AS academyName,
+		<!-- b.academy_name AS academyName, -->
 		a.teacher_introduction AS introduction
 	FROM
 		t_teacher a,
-		t_academy b,
+		<!-- t_academy b, -->
 		t_user_course c,
 		t_user_info d
 	WHERE
 		c.user_id = d.user_uuid
 	AND a.user_id = c.user_id
-	AND b.academy_id = a.academy_id
+	<!-- AND b.academy_id = a.academy_id -->
 	AND c.course_id = #{courseId,jdbcType=VARCHAR}
   </select>
 </mapper>

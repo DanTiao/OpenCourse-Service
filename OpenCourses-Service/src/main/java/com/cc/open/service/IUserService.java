@@ -23,7 +23,7 @@ public interface IUserService {
 	 * @param userVO
 	 * @return
 	 */
-	ResponVO<UserVO> createUser(UserVO userVO);
+	ResponVO<UserVO> createTeacher(UserVO userVO);
 
 	/**
 	 * 根据用户id删除用户
@@ -33,7 +33,7 @@ public interface IUserService {
 	ResponVO<String> deleteUserByUserId(String userId);
 
 	/**
-	 * 批量删除
+	 * 物理批量删除
 	 * @param ids
 	 * @return
 	 */

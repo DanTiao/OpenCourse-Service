@@ -43,7 +43,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/add/user", method = RequestMethod.POST, produces = "application/json")
 	public ResponVO<UserVO> createUser(@RequestBody UserVO userVO){
-		return userService.createUser(userVO);
+		return userService.createTeacher(userVO);
 	}
 	
 	@RequestMapping(value = "/add/admin", method = RequestMethod.POST, produces = "application/json")
@@ -92,6 +92,11 @@ public class UserController {
 //		return userService.deleteUserByUserId(userId);
 //	}
 	
+	/**
+	 * 物理删除
+	 * @param ids
+	 * @return
+	 */
 	@RequestMapping(value = "/delete/users", method = RequestMethod.POST, produces = "application/json")
 	public ResponVO<String> deleteUsersByUserId(@RequestBody List<String> ids){
 		return userService.deleteUsers(ids);
