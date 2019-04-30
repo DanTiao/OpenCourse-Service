@@ -4,9 +4,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cc.open.common.SessionCommon;
 import com.cc.open.dao.TeacherMapper;
 import com.cc.open.dao.UserCourseMapper;
 import com.cc.open.dao.UserInfoMapper;
@@ -28,6 +31,9 @@ public class UserCourseServiceImpl implements IUserCourseService {
 	
 	@Autowired
 	private TeacherMapper teacherDao;
+	
+	@Autowired
+	private HttpServletRequest request;
 
 	@Override
 	public ResponVO<String> setUserCourseRelation(UserCourseVO userCourseVO) {
@@ -57,6 +63,18 @@ public class UserCourseServiceImpl implements IUserCourseService {
 	public ResponVO<UserVO> findUserByAccount(UserCourseVO userCourseVO) {
 		ResponVO<UserVO> result = new ResponVO<>();
 		result.setSuccess(false);
+		if(!SessionCommon.isLogin(request)) {
+			result.setSuccess(false);
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!(SessionCommon.isSupAdmin(request) || SessionCommon.isAdmin(request))) {
+			result.setSuccess(false);
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
 		UserCourseVO userCourse = userCourseDao.findRelationshipByUser(userCourseVO);
 		if(userCourse != null) {
 			result.setCode("500");
@@ -93,6 +111,18 @@ public class UserCourseServiceImpl implements IUserCourseService {
 	@Override
 	public ResponVO<String> deleteCourseManager(UserCourseVO userCourseVO) {
 		ResponVO<String> result = new ResponVO<String>();
+		if(!SessionCommon.isLogin(request)) {
+			result.setSuccess(false);
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!(SessionCommon.isSupAdmin(request) || SessionCommon.isAdmin(request))) {
+			result.setSuccess(false);
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
 		if(userCourseVO.getCourseId() == null || userCourseVO.getUserId() == null || userCourseVO.getCourseId().isEmpty() || userCourseVO.getUserId().isEmpty()) {
 			result.setCode("500");
 			result.setMessage("删除失败");

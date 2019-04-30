@@ -2,6 +2,8 @@ package com.cc.open.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cc.open.common.ConstantCommon;
+import com.cc.open.common.SessionCommon;
 import com.cc.open.dao.UserInfoMapper;
 import com.cc.open.service.IUserService;
 import com.cc.open.vo.ResponVO;
@@ -33,6 +36,9 @@ public class UserController {
 	
 	@Autowired
 	private UserInfoMapper userInfoDao;
+	
+	@Autowired
+	private HttpServletRequest request;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
 	public ResponVO<UserVO> userLogin(@RequestBody UserVO userVO)
@@ -67,6 +73,18 @@ public class UserController {
 	@RequestMapping(value = "/findAll/admin/{pageNum}/{pageSize}", method = RequestMethod.GET, produces = "application/json")
 	public ResponVO<PageInfo> findAllAdmins(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize, @RequestParam("isEnable") String isEnable){
 		ResponVO<PageInfo> result = new ResponVO<>();
+		if(!SessionCommon.isLogin(request)) {
+			result.setSuccess(false);
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!SessionCommon.isSupAdmin(request)) {
+			result.setSuccess(false);
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
 		PageHelper.startPage(pageNum, pageSize);
 		logger.info("########  Paging query");
 		List<UserVO> listUser = userInfoDao.findAllUser(isEnable,ConstantCommon.ADMIN);

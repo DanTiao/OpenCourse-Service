@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cc.open.common.SessionCommon;
 import com.cc.open.dao.CourseMapper;
 import com.cc.open.service.ICourseService;
 import com.cc.open.vo.AcademyVO;
@@ -46,6 +47,18 @@ public class CourseController {
 	@RequestMapping(value = "/findAll/{pageNum}/{pageSize}", method = RequestMethod.GET, produces = "application/json")
 	public ResponVO<PageInfo> findAllCourses(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize, @RequestParam("isEnable") String isEnable){
 		ResponVO<PageInfo> result = new ResponVO<>();
+		if(!SessionCommon.isLogin(request)) {
+			result.setSuccess(false);
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!(SessionCommon.isSupAdmin(request) || SessionCommon.isAdmin(request))) {
+			result.setSuccess(false);
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
 		PageHelper.startPage(pageNum, pageSize);
 		logger.info("########  Paging query");
 		List<CourseVO> listCourses = courseDao.findAllCourse(isEnable);

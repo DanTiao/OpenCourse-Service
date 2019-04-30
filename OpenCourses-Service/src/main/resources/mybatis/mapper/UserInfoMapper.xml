@@ -320,7 +320,7 @@
     <select id="findAccountInfo" resultType="com.cc.open.vo.UserVO">
   	SELECT 
   		user_uuid AS userId,user_account AS userAccount, user_name AS userName, user_type AS userType, user_password AS secretPassword,
-  		create_time AS createTime 
+  		create_time AS createTime, user_email AS userEmail 
   	FROM t_user_info
   	WHERE
 	  	user_account = #{userVO.userAccount,jdbcType=VARCHAR}

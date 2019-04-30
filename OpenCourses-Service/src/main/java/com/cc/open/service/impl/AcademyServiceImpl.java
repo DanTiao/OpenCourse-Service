@@ -81,6 +81,18 @@ public class AcademyServiceImpl implements IAcademyService {
 			result.setMessage("The academyIds is null");
 			return result;
 		}
+		if(!SessionCommon.isLogin(request)) {
+			result.setSuccess(false);
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!(SessionCommon.isSupAdmin(request) || SessionCommon.isAdmin(request))) {
+			result.setSuccess(false);
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
 		academyDao.deleteLogically(academyIds);
 		logger.info("########  Delete logic academy successful");
 		result.setCode("200");
@@ -92,6 +104,18 @@ public class AcademyServiceImpl implements IAcademyService {
 	public ResponVO<String> restAcademyLogic(List<String> academyIds) {
 		ResponVO<String> result = new ResponVO<String>();
 		result.setSuccess(false);
+		if(!SessionCommon.isLogin(request)) {
+			result.setSuccess(false);
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!(SessionCommon.isSupAdmin(request) || SessionCommon.isAdmin(request))) {
+			result.setSuccess(false);
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
 		if(academyIds.isEmpty() || academyIds == null) {
 			result.setCode("500");
 			result.setMessage("The academyIds is null");
@@ -125,6 +149,18 @@ public class AcademyServiceImpl implements IAcademyService {
 		result.setSuccess(false);
 		result.setCode("500");
 		result.setData(academyVO);
+		if(!SessionCommon.isLogin(request)) {
+			result.setSuccess(false);
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!(SessionCommon.isSupAdmin(request) || SessionCommon.isAdmin(request))) {
+			result.setSuccess(false);
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
 		logger.info("########  Create academy");
 		//课程是否已存在
 		AcademyVO academy = academyDao.findAcademyByName(academyVO);
@@ -169,6 +205,18 @@ public class AcademyServiceImpl implements IAcademyService {
 	public ResponVO<String> deleteAcademyPhy(List<String> academyIds) {
 		ResponVO<String> result = new ResponVO<String>();
 		result.setSuccess(false);
+		if(!SessionCommon.isLogin(request)) {
+			result.setSuccess(false);
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!(SessionCommon.isSupAdmin(request) || SessionCommon.isAdmin(request))) {
+			result.setSuccess(false);
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
 		if(academyIds.isEmpty() || academyIds == null) {
 			result.setCode("500");
 			result.setMessage("The academyIds is null");

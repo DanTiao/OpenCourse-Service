@@ -114,6 +114,18 @@ public class CourseServiceImpl implements ICourseService {
 			result.setMessage("The courseIds is null");
 			return result;
 		}
+		if(!SessionCommon.isLogin(request)) {
+			result.setSuccess(false);
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!(SessionCommon.isSupAdmin(request) || SessionCommon.isAdmin(request))) {
+			result.setSuccess(false);
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
 		courseDao.deleteCourseLogically(courseIds);
 		logger.info("########  Delete user successful");
 		result.setCode("200");
@@ -125,6 +137,18 @@ public class CourseServiceImpl implements ICourseService {
 	public ResponVO<String> restCourses(List<String> courseIds) {
 		ResponVO<String> result = new ResponVO<String>();
 		result.setSuccess(false);
+		if(!SessionCommon.isLogin(request)) {
+			result.setSuccess(false);
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!(SessionCommon.isSupAdmin(request) || SessionCommon.isAdmin(request))) {
+			result.setSuccess(false);
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
 		if(courseIds.isEmpty() || courseIds == null) {
 			result.setCode("500");
 			result.setMessage("The courseIds is null");
@@ -174,6 +198,18 @@ public class CourseServiceImpl implements ICourseService {
 	public ResponVO<String> deleteCoursePhy(List<String> courseIds) {
 		ResponVO<String> result = new ResponVO<String>();
 		result.setSuccess(false);
+		if(!SessionCommon.isLogin(request)) {
+			result.setSuccess(false);
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!(SessionCommon.isSupAdmin(request) || SessionCommon.isAdmin(request))) {
+			result.setSuccess(false);
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
 		if(courseIds == null || courseIds.isEmpty()) {
 			logger.info("########  The courseIds is null");
 			result.setCode("500");

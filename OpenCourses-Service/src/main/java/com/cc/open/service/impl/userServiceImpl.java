@@ -6,7 +6,9 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,7 @@ import com.cc.open.domain.UserInfoExample;
 import com.cc.open.domain.UserInfoExample.Criteria;
 import com.cc.open.service.ITeacherService;
 import com.cc.open.service.IUserService;
+import com.cc.open.tool.EmailTool;
 import com.cc.open.utils.AESUtil;
 import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserVO;
@@ -50,6 +53,9 @@ public class userServiceImpl implements IUserService{
 	
 	@Autowired
 	private UserCourseMapper userCourseDao;
+	
+	@Autowired
+	private EmailTool emailTool;
 
 	@Override
 	public ResponVO<UserVO> userLogin(UserVO userVO) {
@@ -346,6 +352,19 @@ public class userServiceImpl implements IUserService{
 		userVO.setUserPassword(secuPwd);
 		userVO.setUpdateTime(new Date());
 		userInfoDao.updateUser(userVO);
+		
+		//发送邮件
+		UserVO userRePwd = userInfoDao.findAccountById(userId);
+		String url = userRePwd.getUserEmail();
+		String email = AESUtil.decrypt(url);
+		String subject = "您的密码已被重置";
+		List<String> to = new ArrayList<>();
+		to.add(email);
+		Map<String, Object> con = new HashMap<>();
+		con.put("userName", userRePwd.getUserName());
+		con.put("password", password);
+		emailTool.sendSimpleMail(to, subject, con, ConstantCommon.REPWDTEMPLATE);
+		
 		result.setCode("200");
 		result.setSuccess(true);
 		result.setMessage("重置密码成功");
@@ -424,6 +443,18 @@ public class userServiceImpl implements IUserService{
 		userVO.setUpdateTime(new Date());
 		int flag = userInfoDao.updateUser(userVO);
 		if(flag>0) {
+			
+			//发送邮件
+			UserVO userRePwd = userInfoDao.findAccountInfo(userVO);
+			String url = userRePwd.getUserEmail();
+			String email = AESUtil.decrypt(url);
+			String subject = "您的密码已被修改";
+			List<String> to = new ArrayList<>();
+			to.add(email);
+			Map<String, Object> con = new HashMap<>();
+			con.put("userName", userRePwd.getUserName());
+			emailTool.sendSimpleMail(to, subject, con, ConstantCommon.CHAGEWDTEMPLATE);		
+			
 			result.setCode("200");
 			result.setMessage("修改成功");
 			result.setSuccess(true);
