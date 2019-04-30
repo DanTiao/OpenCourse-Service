@@ -37,4 +37,6 @@ public interface UserCourseMapper {
 	UserCourseVO findRelationshipByUser(@Param("userCourseVO") UserCourseVO userCourseVO);
 
 	void deleteCourseManager(@Param("userCourseVO") UserCourseVO userCourseVO);
+
+	void deleteCourseManagerByUserIds(List<String> ids);
 }

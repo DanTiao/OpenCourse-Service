@@ -384,7 +384,7 @@
       id = #{courseDataVO.id,jdbcType=VARCHAR}
   </update>
   <select id="getCourseDetails" resultType="com.cc.open.vo.CourseDataVO">
-  
+  	
   </select>
   
 </mapper>

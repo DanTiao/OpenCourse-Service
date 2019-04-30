@@ -7,8 +7,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cc.open.dao.TeacherMapper;
 import com.cc.open.dao.UserCourseMapper;
 import com.cc.open.dao.UserInfoMapper;
+import com.cc.open.domain.Teacher;
 import com.cc.open.domain.UserCourse;
 import com.cc.open.service.IUserCourseService;
 import com.cc.open.vo.ResponVO;
@@ -23,6 +25,9 @@ public class UserCourseServiceImpl implements IUserCourseService {
 	
 	@Autowired
 	private UserInfoMapper userInfoDao;
+	
+	@Autowired
+	private TeacherMapper teacherDao;
 
 	@Override
 	public ResponVO<String> setUserCourseRelation(UserCourseVO userCourseVO) {
@@ -60,11 +65,16 @@ public class UserCourseServiceImpl implements IUserCourseService {
 		}
 		UserVO userInfo = new UserVO();
 		userInfo.setUserAccount(userCourseVO.getUserAccount());
+		userInfo.setIsEnable("1");
 		UserVO user = userInfoDao.findAccountInfo(userInfo);
 		if(user == null) {
 			result.setCode("404");
 			result.setMessage("用户不存在");
 			return result;
+		}
+		Teacher teacher = teacherDao.findTeacherInfoByUserId(user.getUserId());
+		if(teacher == null) {
+			teacherDao.createTeacherInfo(user);
 		}
 		UserCourse insertUserCourse = new UserCourse();
 		insertUserCourse.setCourseId(userCourseVO.getCourseId());

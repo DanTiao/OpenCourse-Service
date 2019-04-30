@@ -137,5 +137,10 @@ public class UserController {
 	public ResponVO<UserVO> getUserInfo(){
 		return userService.getUserInfo();
 	}
+	
+	@RequestMapping(value = "/set_admin", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<UserVO> setUserToAdmin(@RequestBody UserVO userVO){
+		return userService.setUserToAdmin(userVO);
+	}
 
 }

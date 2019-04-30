@@ -35,4 +35,8 @@ public interface TeacherMapper {
 	void updateTeacherInfoByUserId(Teacher teacher);
 
 	void createTeacherInfo(@Param("data") UserVO data);
+
+	void deleteTeacherByIds(List<String> ids);
+
+	Teacher findTeacherInfoByUserId(@Param("userId") String userId);
 }

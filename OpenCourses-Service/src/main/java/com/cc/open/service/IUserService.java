@@ -62,4 +62,6 @@ public interface IUserService {
 
 	ResponVO<UserVO> createAdmin(UserVO userVO);
 
+	ResponVO<UserVO> setUserToAdmin(UserVO userVO);
+
 }

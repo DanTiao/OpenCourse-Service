@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import com.cc.open.common.SessionCommon;
 import com.cc.open.common.ConstantCommon;
+import com.cc.open.dao.TeacherMapper;
+import com.cc.open.dao.UserCourseMapper;
 import com.cc.open.dao.UserInfoMapper;
 import com.cc.open.domain.UserInfoExample;
 import com.cc.open.domain.UserInfoExample.Criteria;
@@ -42,6 +44,12 @@ public class userServiceImpl implements IUserService{
 	
 	@Autowired
 	private ITeacherService teacherService;
+	
+	@Autowired
+	private TeacherMapper teacherDao;
+	
+	@Autowired
+	private UserCourseMapper userCourseDao;
 
 	@Override
 	public ResponVO<UserVO> userLogin(UserVO userVO) {
@@ -163,6 +171,8 @@ public class userServiceImpl implements IUserService{
 			return result;
 		}
 		userInfoDao.deleteUsersByIds(ids);
+		teacherDao.deleteTeacherByIds(ids);
+		userCourseDao.deleteCourseManagerByUserIds(ids);
 		logger.info("########  Delete user successful");
 		result.setCode("200");
 		result.setSuccess(true);
@@ -451,6 +461,52 @@ public class userServiceImpl implements IUserService{
 			return result;
 		}
 		return createUser(ConstantCommon.ADMIN, userVO);
+	}
+
+	@Override
+	public ResponVO<UserVO> setUserToAdmin(UserVO userVO) {
+		ResponVO<UserVO> result = new ResponVO<>();
+		result.setSuccess(false);
+		if(!SessionCommon.isLogin(request)) {
+			logger.info("########  请登录");
+			result.setCode("401");
+			result.setMessage("请登录");
+			return result;
+		}
+		if(!SessionCommon.isSupAdmin(request)) {
+			logger.info("########  登录用户权限不足");
+			result.setCode("500");
+			result.setMessage("登录用户权限不足");
+			return result;
+		}
+		if(userVO.getUserAccount().isEmpty()) {
+			logger.info("########  Account is null");
+			result.setCode("500");
+			result.setMessage("用户名为空");
+			return result;
+		}
+		String isEnable = "1";
+		userVO.setIsEnable(isEnable);
+		UserVO user = userInfoDao.findAccountInfo(userVO);
+		if(user == null) {
+			logger.info("########  User is not exist");
+			result.setCode("500");
+			result.setMessage("用户不存在");
+			return result;
+		}
+		if(ConstantCommon.ADMIN.equals(user.getUserType())) {
+			logger.info("########  Admin is exist");
+			result.setCode("500");
+			result.setMessage("管理员已存在");
+			return result;
+		}
+		userVO.setUserType(ConstantCommon.ADMIN);
+		userVO.setUpdateTime(new Date());
+		userInfoDao.updateUser(userVO);
+		result.setCode("200");
+		result.setSuccess(true);
+		return result;
+		
 	}
 
 }
