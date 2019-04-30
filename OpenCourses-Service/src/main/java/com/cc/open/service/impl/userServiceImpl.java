@@ -547,4 +547,16 @@ public class userServiceImpl implements IUserService{
 		
 	}
 
+	@Override
+	public ResponVO<String> userLogout() {
+		ResponVO<String> result = new ResponVO<String>();
+		result.setCode("500");
+		result.setSuccess(false);
+		if(SessionCommon.logout(request)) {
+			result.setCode("200");
+			result.setSuccess(true);
+		}
+		return result;
+	}
+
 }

@@ -64,4 +64,6 @@ public interface IUserService {
 
 	ResponVO<UserVO> setUserToAdmin(UserVO userVO);
 
+	ResponVO<String> userLogout();
+
 }

@@ -165,5 +165,10 @@ public class UserController {
 	public ResponVO<UserVO> setUserToAdmin(@RequestBody UserVO userVO){
 		return userService.setUserToAdmin(userVO);
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET, produces = "application/json")
+	public ResponVO<String> userLogout(){
+		return userService.userLogout();
+	}
 
 }

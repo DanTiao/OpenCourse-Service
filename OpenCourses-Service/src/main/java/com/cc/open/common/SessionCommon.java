@@ -56,4 +56,12 @@ public class SessionCommon {
 		}
 		return false;
 	}
+
+	public static boolean logout(HttpServletRequest request2) {
+		if(request2.getSession().getAttribute(ConstantCommon.USER) != null) {
+			request2.getSession().invalidate();
+			return true;
+		}
+		return false;		
+	}
 }
