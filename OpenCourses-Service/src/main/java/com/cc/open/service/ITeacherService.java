@@ -17,4 +17,6 @@ public interface ITeacherService {
 
 	ResponVO<List<TeacherVO>> getTeacherData(String courseId);
 
+	ResponVO<List<TeacherVO>> getDetalisByacademyId(String academyId);
+
 }

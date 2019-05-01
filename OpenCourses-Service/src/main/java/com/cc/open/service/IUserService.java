@@ -66,4 +66,6 @@ public interface IUserService {
 
 	ResponVO<String> userLogout();
 
+	ResponVO<UserVO> userRestPwd(UserVO userVO);
+
 }

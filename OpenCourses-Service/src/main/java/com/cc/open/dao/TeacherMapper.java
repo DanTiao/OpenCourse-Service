@@ -42,4 +42,6 @@ public interface TeacherMapper {
 	Teacher findTeacherInfoByUserId(@Param("userId") String userId);
 
 	List<TeacherVO> getTeacherData(@Param("courseId") String courseId);
+
+	List<TeacherVO> getDetalisByacademyId(@Param("academyId") String academyId);
 }

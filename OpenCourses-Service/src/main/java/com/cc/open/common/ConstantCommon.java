@@ -14,7 +14,9 @@ public class ConstantCommon {
 	
 	public static final String SAVE_URL_VIDEOS = "C:\\OpenCourse\\videos";
 	
-	public static final String SAVE_URL_DOC = "E:\\OpenCourse\\file";
+	public static final String SAVE_URL_DOC = "C:\\OpenCourse\\doc";
+	
+	public static final String SAVE_URL_FILE = "C:\\OpenCourse\\file";
 	
     public static final String FILE_TYPE_IMAGE = "jpeg,jpg,png";
     

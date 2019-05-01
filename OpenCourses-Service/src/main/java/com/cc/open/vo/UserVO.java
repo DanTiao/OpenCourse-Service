@@ -34,6 +34,16 @@ public class UserVO implements Serializable {
 	 * 是否有效(0---失效；1---有效)
 	 */
 	private String isEnable;
+	
+	private String academyId;
+
+	public String getAcademyId() {
+		return academyId;
+	}
+
+	public void setAcademyId(String academyId) {
+		this.academyId = academyId;
+	}
 
 	public String getUserId() {
 		return userId;

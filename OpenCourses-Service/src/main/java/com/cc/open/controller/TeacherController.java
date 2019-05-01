@@ -48,4 +48,9 @@ public class TeacherController {
 	public ResponVO<List<TeacherVO>> getTeacherData(@PathVariable("courseId") String courseId){
 		return teacherService.getTeacherData(courseId);	
 	}
+	
+	@RequestMapping(value = "/getDetalis/{academyId}", method = RequestMethod.GET, produces = "application/json")
+	public ResponVO<List<TeacherVO>> getDetalis(@PathVariable("academyId") String academyId){
+		return teacherService.getDetalisByacademyId(academyId);	
+	}
 }

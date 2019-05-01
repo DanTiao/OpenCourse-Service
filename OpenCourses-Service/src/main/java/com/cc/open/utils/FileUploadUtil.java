@@ -26,13 +26,13 @@ public class FileUploadUtil {
 	 * @param fileType
 	 * @return
 	 */
-	public static String uploadFile(MultipartFile file, String saveUrl, String courseId) {
+	public static String uploadFile(MultipartFile file, String saveUrl, String fileType) {
 		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 	    String fileName = UUID.randomUUID() + suffix;
 	    Date now = new Date(); 
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    String nowDate = dateFormat.format(now); 
-	    String newUrl = saveUrl+"\\"+nowDate+"\\"+courseId+"\\"+fileName;
+	    String newUrl = saveUrl+"\\"+nowDate+"\\"+fileType+"\\"+fileName;
 	    logger.info("文件路径：" + newUrl);
 	    File saveFile = new File(newUrl);
 	    if(!saveFile.getParentFile().exists()){

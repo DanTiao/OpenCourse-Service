@@ -170,5 +170,12 @@ public class UserController {
 	public ResponVO<String> userLogout(){
 		return userService.userLogout();
 	}
+	
+	@RequestMapping(value = "/pwd/rest", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<UserVO> userRestPwd(@RequestBody UserVO userVO)
+	{
+		ResponVO<UserVO> result = userService.userRestPwd(userVO);
+		return result;
+	}
 
 }

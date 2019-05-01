@@ -401,8 +401,27 @@
       where
       id = #{courseDataVO.id,jdbcType=VARCHAR}
   </update>
-  <select id="getCourseDetails" resultType="com.cc.open.vo.CourseDataVO">
-  	
+  
+  <select id="findAllVideos" resultType="com.cc.open.vo.CourseDataVO">
+  	SELECT
+  		id,
+		video_name AS videoName,
+		video_path AS videoPath
+	FROM
+		t_data_course
+	WHERE
+		video_path IS NOT NULL
+  </select>
+  
+  <select id="findAllFiles" resultType="com.cc.open.vo.CourseDataVO">
+  	SELECT
+  		id,
+		file_name AS fileName,
+		file_path AS filePath
+	FROM
+		t_data_course
+	WHERE
+		file_path IS NOT NULL
   </select>
   
 </mapper>

@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cc.open.common.ConstantCommon;
+import com.cc.open.dao.CourseDataMapper;
 import com.cc.open.service.ICourseDataService;
 import com.cc.open.utils.FileUploadUtil;
 import com.cc.open.vo.CourseDataVO;
+import com.cc.open.vo.CourseVO;
 import com.cc.open.vo.ResponVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @RestController
 @RequestMapping(value = "/course/data")
@@ -27,6 +31,9 @@ public class CourseDataController {
 	
 	@Autowired
 	private ICourseDataService courseDataService;
+	
+	@Autowired
+	private CourseDataMapper courseDataDao;
 	
 	@RequestMapping(value = "/upload/video", method = RequestMethod.POST, produces = "application/json")
 	public ResponVO<CourseDataVO> uploadCourseVideo(@RequestParam("courseId") String courseId, @RequestParam("file") MultipartFile file){
@@ -82,5 +89,31 @@ public class CourseDataController {
 	@RequestMapping(value = "/getDetalis/{courseId}", method = RequestMethod.GET, produces = "application/json")
 	public ResponVO<CourseDataVO> getCourseDetails(@PathVariable("courseId") String courseId){		
 		return courseDataService.getCourseDetails(courseId);
+	}
+	
+	@RequestMapping(value = "/video/{pageNum}/{pageSize}", method = RequestMethod.GET, produces = "application/json")
+	public ResponVO<PageInfo> getCourseAllVideos(@PathVariable("pageNum") int pageNum,@PathVariable("pageSize") int pageSize){		
+		ResponVO<PageInfo> result = new ResponVO<>();
+		PageHelper.startPage(pageNum, pageSize);
+		logger.info("########  Paging video query");
+		List<CourseDataVO> listVideos = courseDataDao.findAllVideos();
+		PageInfo pageInfo = new PageInfo(listVideos);
+		result.setData(pageInfo);
+		result.setSuccess(true);
+		result.setCode("200");
+		return result;
+	}
+	
+	@RequestMapping(value = "/file/{pageNum}/{pageSize}", method = RequestMethod.GET, produces = "application/json")
+	public ResponVO<PageInfo> getCourseAllFile(@PathVariable("pageNum") int pageNum,@PathVariable("pageSize") int pageSize){		
+		ResponVO<PageInfo> result = new ResponVO<>();
+		PageHelper.startPage(pageNum, pageSize);
+		logger.info("########  Paging video query");
+		List<CourseDataVO> listFiles = courseDataDao.findAllFiles();
+		PageInfo pageInfo = new PageInfo(listFiles);
+		result.setData(pageInfo);
+		result.setSuccess(true);
+		result.setCode("200");
+		return result;
 	}
 }

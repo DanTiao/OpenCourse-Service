@@ -84,4 +84,19 @@ public class TeacherServiceImpl implements ITeacherService {
 		return result;
 	}
 
+	@Override
+	public ResponVO<List<TeacherVO>> getDetalisByacademyId(String academyId) {
+		ResponVO<List<TeacherVO>> result = new ResponVO<>();
+		result.setSuccess(false);
+		List<TeacherVO> teachers = teacherDao.getDetalisByacademyId(academyId);
+		if(!(teachers == null || (teachers.size() == 0) )){
+			result.setCode("200");
+			result.setData(teachers);
+			return result;
+		}
+		result.setCode("500");
+		result.setMessage("教师信息为空");
+		return result;
+	}
+
 }
