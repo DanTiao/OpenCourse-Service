@@ -13,14 +13,14 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.cc.open.tool.EmailTool;
+import com.cc.open.utils.EmailUtil;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class MailTest {
 
 	@Autowired
-    private EmailTool emailTool;
+    private EmailUtil emailUtil;
 	
 	@Autowired
     private JavaMailSender mailSender;

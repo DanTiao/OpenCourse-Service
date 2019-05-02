@@ -27,8 +27,8 @@ import com.cc.open.domain.UserInfoExample;
 import com.cc.open.domain.UserInfoExample.Criteria;
 import com.cc.open.service.ITeacherService;
 import com.cc.open.service.IUserService;
-import com.cc.open.tool.EmailTool;
 import com.cc.open.utils.AESUtil;
+import com.cc.open.utils.EmailUtil;
 import com.cc.open.vo.ResponVO;
 import com.cc.open.vo.UserVO;
 import com.github.pagehelper.PageInfo;
@@ -54,7 +54,7 @@ public class userServiceImpl implements IUserService {
 	private UserCourseMapper userCourseDao;
 
 	@Autowired
-	private EmailTool emailTool;
+	private EmailUtil emailUtil;
 
 	@Override
 	public ResponVO<UserVO> userLogin(UserVO userVO) {
@@ -364,7 +364,7 @@ public class userServiceImpl implements IUserService {
 		Map<String, Object> con = new HashMap<>();
 		con.put("userName", userRePwd.getUserName());
 		con.put("password", password);
-		emailTool.sendSimpleMail(to, subject, con, ConstantCommon.REPWDTEMPLATE);
+		emailUtil.sendSimpleMail(to, subject, con, ConstantCommon.REPWDTEMPLATE);
 
 		result.setCode("200");
 		result.setSuccess(true);
@@ -455,7 +455,7 @@ public class userServiceImpl implements IUserService {
 			to.add(email);
 			Map<String, Object> con = new HashMap<>();
 			con.put("userName", userRePwd.getUserName());
-			emailTool.sendSimpleMail(to, subject, con, ConstantCommon.CHAGEWDTEMPLATE);
+			emailUtil.sendSimpleMail(to, subject, con, ConstantCommon.CHAGEWDTEMPLATE);
 
 			result.setCode("200");
 			result.setMessage("修改成功");
@@ -603,7 +603,7 @@ public class userServiceImpl implements IUserService {
 		Map<String, Object> con = new HashMap<>();
 		con.put("userName", accontInfo.getUserName());
 		con.put("password", password);
-		emailTool.sendSimpleMail(to, subject, con, ConstantCommon.REPWDTEMPLATE);
+		emailUtil.sendSimpleMail(to, subject, con, ConstantCommon.REPWDTEMPLATE);
 		result.setCode("200");
 		result.setSuccess(true);
 		result.setMessage("找回密码成功");

@@ -1,4 +1,4 @@
-package com.cc.open.tool;
+package com.cc.open.utils;
 
 import java.io.File;
 import java.util.List;
@@ -19,7 +19,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 @Component
-public class EmailTool {
+public class EmailUtil {
 
 	@Autowired
 	private JavaMailSender javaMailSender;
