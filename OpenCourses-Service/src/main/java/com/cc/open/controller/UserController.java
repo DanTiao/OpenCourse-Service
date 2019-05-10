@@ -131,6 +131,28 @@ public class UserController {
 	}
 	
 	/**
+	 * 根据用户名查找教师用户
+	 * @param isEnable
+	 * @param userAccount
+	 * @return
+	 */
+	@RequestMapping(value = "/find/teacher/{isEnable}", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<PageInfo> findTeacherByAccount(@PathVariable("isEnable") String isEnable, @RequestBody String userAccount){
+		return userService.findTeacherByAccount(userAccount, isEnable);
+	}
+	
+	/**
+	 * 根据用户名查找管理员
+	 * @param isEnable
+	 * @param userAccount
+	 * @return
+	 */
+	@RequestMapping(value = "/find/admin/{isEnable}", method = RequestMethod.POST, produces = "application/json")
+	public ResponVO<PageInfo> findAdminByAccount(@PathVariable("isEnable") String isEnable, @RequestBody String userAccount){
+		return userService.findAdminByAccount(userAccount, isEnable);
+	}
+	
+	/**
 	 * 通过用户id获取用户信息
 	 * @param userId
 	 * @return

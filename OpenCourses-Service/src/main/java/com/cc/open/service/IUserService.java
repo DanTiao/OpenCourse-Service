@@ -68,4 +68,8 @@ public interface IUserService {
 
 	ResponVO<UserVO> userRestPwd(UserVO userVO);
 
+	ResponVO<PageInfo> findTeacherByAccount(String userAccount, String isEnable);
+
+	ResponVO<PageInfo> findAdminByAccount(String userAccount, String isEnable);
+
 }

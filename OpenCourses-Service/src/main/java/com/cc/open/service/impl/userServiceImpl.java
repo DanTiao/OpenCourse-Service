@@ -218,6 +218,23 @@ public class userServiceImpl implements IUserService {
 		result.setMessage("用户不存在");
 		return result;
 	}
+	
+	private UserVO findUser(String userAccount, String isEnable) {
+		if (userAccount.isEmpty()) {
+			logger.info("########  Account is null");
+			return null;
+		}
+		UserVO userInfo = new UserVO();
+		userInfo.setUserAccount(userAccount);
+		userInfo.setIsEnable(isEnable);
+		UserVO user = userInfoDao.findAccountInfo(userInfo);
+		if (user != null) {
+			logger.info("########  Find account successful");
+			return user;
+		}
+		logger.info("########  User is not exist");
+		return null;
+	}
 
 	@Override
 	public ResponVO<UserVO> findUserById(String userId) {
@@ -607,6 +624,74 @@ public class userServiceImpl implements IUserService {
 		result.setCode("200");
 		result.setSuccess(true);
 		result.setMessage("找回密码成功");
+		return result;
+	}
+
+	@Override
+	public ResponVO<PageInfo> findTeacherByAccount(String userAccount, String isEnable) {
+		ResponVO<PageInfo> result = new ResponVO<>();
+		result.setSuccess(false);
+		if (userAccount.isEmpty()) {
+			logger.info("########  Account is null");
+			result.setCode("500");
+			result.setMessage("Account is null");
+			return result;
+		}
+		UserVO user = this.findUser(userAccount, isEnable);
+		if (user != null) {
+			if(!ConstantCommon.TEACHER.equals(user.getUserType())) {
+				logger.info("########  User is not exist");
+				result.setCode("500");
+				result.setMessage("用户不存在");
+				return result;
+			}
+			List<UserVO> list = new ArrayList<UserVO>();
+			list.add(user);
+			PageInfo pageInfo = new PageInfo(list);
+			logger.info("########  Find account successful");
+			result.setCode("200");
+			result.setSuccess(true);
+			result.setMessage("Find account successful");
+			result.setData(pageInfo);
+			return result;
+		}
+		logger.info("########  User is not exist");
+		result.setCode("500");
+		result.setMessage("用户不存在");
+		return result;
+	}
+
+	@Override
+	public ResponVO<PageInfo> findAdminByAccount(String userAccount, String isEnable) {
+		ResponVO<PageInfo> result = new ResponVO<>();
+		result.setSuccess(false);
+		if (userAccount.isEmpty()) {
+			logger.info("########  Account is null");
+			result.setCode("500");
+			result.setMessage("Account is null");
+			return result;
+		}
+		UserVO user = this.findUser(userAccount, isEnable);
+		if (user != null) {
+			if(!ConstantCommon.ADMIN.equals(user.getUserType())) {
+				logger.info("########  User is not exist");
+				result.setCode("500");
+				result.setMessage("用户不存在");
+				return result;
+			}
+			List<UserVO> list = new ArrayList<UserVO>();
+			list.add(user);
+			PageInfo pageInfo = new PageInfo(list);
+			logger.info("########  Find account successful");
+			result.setCode("200");
+			result.setSuccess(true);
+			result.setMessage("Find account successful");
+			result.setData(pageInfo);
+			return result;
+		}
+		logger.info("########  User is not exist");
+		result.setCode("500");
+		result.setMessage("用户不存在");
 		return result;
 	}
 
