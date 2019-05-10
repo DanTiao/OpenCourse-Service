@@ -10,13 +10,15 @@ public class ConstantCommon {
 
 	public static final String USER = "USER";
 	
-	public static final String SAVE_URL_IMAGES = "C:\\OpenCourse\\images";
+	public static final String SAVE_URL_IMAGES = "\\images";
 	
-	public static final String SAVE_URL_VIDEOS = "C:\\OpenCourse\\videos";
+	public static final String SAVE_URL_VIDEOS = "\\videos";
 	
-	public static final String SAVE_URL_DOC = "C:\\OpenCourse\\doc";
+	public static final String SAVE_URL_DOC = "\\doc";
 	
-	public static final String SAVE_URL_FILE = "C:\\OpenCourse\\file";
+	public static final String SAVE_URL_FILE = "\\file";
+	
+	public static final String SAVE_URL_COMMON = "C:\\OpenCourse";
 	
     public static final String FILE_TYPE_IMAGE = "jpeg,jpg,png";
     

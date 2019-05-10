@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cc.open.common.ConstantCommon;
 import com.cc.open.vo.CourseDataVO;
 import com.cc.open.vo.ResponVO;
 
@@ -27,14 +28,16 @@ public class FileUploadUtil {
 	 * @return
 	 */
 	public static String uploadFile(MultipartFile file, String saveUrl, String fileType) {
+		String localPath = ConstantCommon.SAVE_URL_COMMON;
 		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 	    String fileName = UUID.randomUUID() + suffix;
 	    Date now = new Date(); 
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    String nowDate = dateFormat.format(now); 
 	    String newUrl = saveUrl+"\\"+nowDate+"\\"+fileType+"\\"+fileName;
-	    logger.info("文件路径：" + newUrl);
-	    File saveFile = new File(newUrl);
+	    String localUrl = localPath + newUrl;
+	    logger.info("文件路径：" + localUrl);
+	    File saveFile = new File(localUrl);
 	    if(!saveFile.getParentFile().exists()){
 	        saveFile.getParentFile().mkdirs();
 	    }
