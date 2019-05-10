@@ -254,11 +254,11 @@ public class CourseServiceImpl implements ICourseService {
 			result.setMessage("当前登录用户权限不足");
 			return result;
 		}
-		logger.info("########  Update user");
+		logger.info("########  Update course");
 		//课程是否已存在
-		if(courseDao.findCourseByName(courseVO) == null) {
-			logger.info("########  Username is not exists");
-			result.setMessage("课程不存在");
+		if(courseDao.findCourseByName(courseVO) != null) {
+			logger.info("########  Username is exists");
+			result.setMessage("课程名已存在");
 			return result;
 		}
 		
